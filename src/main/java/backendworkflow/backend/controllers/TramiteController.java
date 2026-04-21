@@ -1,5 +1,7 @@
 package backendworkflow.backend.controllers;
 
+import backendworkflow.backend.models.AsistenteFormularioRequest;
+import backendworkflow.backend.models.AsistenteFormularioResponse;
 import backendworkflow.backend.models.Tramite;
 import backendworkflow.backend.models.Usuario;
 import backendworkflow.backend.services.TramiteService;
@@ -96,6 +98,33 @@ public class TramiteController {
             );
 
             return ResponseEntity.ok(tramite);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{id}/asistir-formulario")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO', 'CLIENTE')")
+    public ResponseEntity<?> asistirFormulario(
+            @PathVariable String id,
+            @RequestBody AsistenteFormularioRequest request,
+            Authentication authentication
+    ) {
+        try {
+            String email = authentication.getName();
+            Usuario usuario = usuarioService.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            AsistenteFormularioResponse response = tramiteService.asistirFormulario(
+                    id,
+                    request.pasoId(),
+                    request.modo(),
+                    request.mensaje(),
+                    usuario.getId(),
+                    usuario.getDepartamentoId()
+            );
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }

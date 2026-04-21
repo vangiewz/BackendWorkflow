@@ -1,6 +1,8 @@
 package backendworkflow.backend.services;
 
 import backendworkflow.backend.models.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import backendworkflow.backend.repositories.PlantillaWorkflowRepository;
 import backendworkflow.backend.repositories.TramiteRepository;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,18 @@ public class TramiteService {
 
     private final TramiteRepository tramiteRepository;
     private final PlantillaWorkflowRepository plantillaRepository;
+    private final ClaudeAiService claudeAiService;
+    private final ObjectMapper objectMapper;
 
-    public TramiteService(TramiteRepository tramiteRepository, PlantillaWorkflowRepository plantillaRepository) {
+    public TramiteService(
+            TramiteRepository tramiteRepository,
+            PlantillaWorkflowRepository plantillaRepository,
+            ClaudeAiService claudeAiService
+    ) {
         this.tramiteRepository = tramiteRepository;
         this.plantillaRepository = plantillaRepository;
+        this.claudeAiService = claudeAiService;
+        this.objectMapper = new ObjectMapper();
     }
 
     /**
@@ -64,39 +74,9 @@ public class TramiteService {
     public Tramite responderPaso(String tramiteId, String pasoId, String funcionarioId, 
                                   String funcionarioNombre, String departamentoId,
                                   Map<String, Object> respuesta, String decisionElegida) {
-        Tramite tramite = tramiteRepository.findById(tramiteId)
-                .orElseThrow(() -> new RuntimeException("Trámite no encontrado"));
-
-        if ("FINALIZADO".equals(tramite.getEstadoGlobal())) {
-            throw new RuntimeException("Este trámite ya fue finalizado");
-        }
-
-        if (!pasoId.equals(tramite.getPasoActualId())) {
-            throw new RuntimeException("Este no es el paso actual del trámite");
-        }
-
-        // Obtener la plantilla para acceder al grafo de pasos
-        PlantillaWorkflow plantilla = plantillaRepository.findById(tramite.getPlantillaId())
-                .orElseThrow(() -> new RuntimeException("Plantilla no encontrada"));
-
-        PasoWorkflow pasoActual = plantilla.getPasos().stream()
-                .filter(p -> p.id().equals(pasoId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Paso no encontrado en la plantilla"));
-
-        // Validar que el departamento del usuario coincida con el del paso.
-        // Tanto ADMIN como FUNCIONARIO deben pertenecer al mismo departamento del paso.
-        // Si el paso tiene departamentoId null, es del cliente — no se puede responder desde web.
-        if (pasoActual.departamentoId() != null) {
-            if (departamentoId == null || !departamentoId.equals(pasoActual.departamentoId())) {
-                throw new RuntimeException("No tienes permisos para responder este paso. Pertenece a otro departamento.");
-            }
-        } else {
-            // Es un paso de Cliente, verificamos que quien responde sea el dueño (creador) del trámite
-            if (!funcionarioId.equals(tramite.getClienteId())) {
-                throw new RuntimeException("Solo el cliente que inició el trámite puede responder a este requerimiento.");
-            }
-        }
+        StepExecutionContext context = loadAndValidateStepContext(tramiteId, pasoId, funcionarioId, departamentoId);
+        Tramite tramite = context.tramite();
+        PasoWorkflow pasoActual = context.pasoActual();
 
         // Cerrar el registro de tiempo del paso actual
         List<RegistroTiempo> historial = tramite.getHistorialTiempos();
@@ -178,6 +158,61 @@ public class TramiteService {
         return tramiteRepository.save(tramite);
     }
 
+    public AsistenteFormularioResponse asistirFormulario(
+            String tramiteId,
+            String pasoId,
+            String modo,
+            String mensaje,
+            String usuarioId,
+            String departamentoId
+    ) {
+        if (mensaje == null || mensaje.isBlank()) {
+            throw new RuntimeException("Debes enviar un mensaje para solicitar ayuda de IA.");
+        }
+
+        StepExecutionContext context = loadAndValidateStepContext(tramiteId, pasoId, usuarioId, departamentoId);
+        PasoWorkflow pasoActual = context.pasoActual();
+
+        if ("DECISION".equals(pasoActual.tipo())) {
+            throw new RuntimeException("La asistencia IA para autocompletar aplica solo a pasos de tipo ACTIVIDAD.");
+        }
+
+        Map<String, Object> schema = pasoActual.formularioJson();
+        if (schema == null || schema.isEmpty()) {
+            return new AsistenteFormularioResponse(pasoId, Map.of(), "Este paso no tiene formulario para autocompletar.");
+        }
+
+        try {
+            String schemaJson = objectMapper.writeValueAsString(schema);
+            String aiRaw = claudeAiService.sugerirCamposFormulario(schemaJson, mensaje, modo != null ? modo : "chat");
+            String aiJson = extractJsonObject(aiRaw);
+
+            Map<String, Object> parsed = objectMapper.readValue(aiJson, new TypeReference<Map<String, Object>>() {
+            });
+            Object sugerenciaObj = parsed.get("sugerencia");
+            Object observacionObj = parsed.get("observacion");
+
+            Map<String, Object> sugerencia = new HashMap<>();
+            if (sugerenciaObj instanceof Map<?, ?> suggestionMap) {
+                for (Map.Entry<?, ?> entry : suggestionMap.entrySet()) {
+                    String key = String.valueOf(entry.getKey());
+                    if (isSchemaFieldAllowed(schema, key)) {
+                        sugerencia.put(key, entry.getValue());
+                    }
+                }
+            }
+
+            String observacion = observacionObj == null ? "" : String.valueOf(observacionObj);
+            return new AsistenteFormularioResponse(pasoId, sugerencia, observacion);
+        } catch (Exception e) {
+            return new AsistenteFormularioResponse(
+                    pasoId,
+                    Map.of(),
+                    "No se pudo autocompletar con IA en este intento. Puedes completar manualmente o intentar de nuevo."
+            );
+        }
+    }
+
     public List<Tramite> getByClienteId(String clienteId) {
         return tramiteRepository.findByClienteId(clienteId);
     }
@@ -188,5 +223,67 @@ public class TramiteService {
 
     public Optional<Tramite> getById(String id) {
         return tramiteRepository.findById(id);
+    }
+
+    private StepExecutionContext loadAndValidateStepContext(
+            String tramiteId,
+            String pasoId,
+            String usuarioId,
+            String departamentoId
+    ) {
+        Tramite tramite = tramiteRepository.findById(tramiteId)
+                .orElseThrow(() -> new RuntimeException("Trámite no encontrado"));
+
+        if ("FINALIZADO".equals(tramite.getEstadoGlobal())) {
+            throw new RuntimeException("Este trámite ya fue finalizado");
+        }
+
+        if (!pasoId.equals(tramite.getPasoActualId())) {
+            throw new RuntimeException("Este no es el paso actual del trámite");
+        }
+
+        PlantillaWorkflow plantilla = plantillaRepository.findById(tramite.getPlantillaId())
+                .orElseThrow(() -> new RuntimeException("Plantilla no encontrada"));
+
+        PasoWorkflow pasoActual = plantilla.getPasos().stream()
+                .filter(p -> p.id().equals(pasoId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Paso no encontrado en la plantilla"));
+
+        if (pasoActual.departamentoId() != null) {
+            if (departamentoId == null || !departamentoId.equals(pasoActual.departamentoId())) {
+                throw new RuntimeException("No tienes permisos para responder este paso. Pertenece a otro departamento.");
+            }
+        } else if (!usuarioId.equals(tramite.getClienteId())) {
+            throw new RuntimeException("Solo el cliente que inició el trámite puede responder a este requerimiento.");
+        }
+
+        return new StepExecutionContext(tramite, pasoActual);
+    }
+
+    private boolean isSchemaFieldAllowed(Map<String, Object> schema, String fieldKey) {
+        Object propertiesObj = schema.get("properties");
+        if (!(propertiesObj instanceof Map<?, ?> props)) {
+            return false;
+        }
+        return props.containsKey(fieldKey);
+    }
+
+    private String extractJsonObject(String aiRaw) {
+        if (aiRaw == null) {
+            return "{}";
+        }
+
+        int firstBrace = aiRaw.indexOf('{');
+        int lastBrace = aiRaw.lastIndexOf('}');
+
+        if (firstBrace >= 0 && lastBrace > firstBrace) {
+            return aiRaw.substring(firstBrace, lastBrace + 1);
+        }
+
+        return aiRaw;
+    }
+
+    private record StepExecutionContext(Tramite tramite, PasoWorkflow pasoActual) {
     }
 }
