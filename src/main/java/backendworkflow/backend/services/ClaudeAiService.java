@@ -127,13 +127,91 @@ public class ClaudeAiService {
                 </estructura_json_esperada>
                 """.replace("{DEPARTAMENTOS}", stringDeDepartamentosBD);
 
+        return sendToClaude(systemPrompt, politicaNegocio, 2500);
+          }
+
+          public String analizarLogsTramites(String logsCompactosJson, double horasEsperadasPromedio) {
+        String systemPrompt = """
+          Eres un consultor senior de procesos institucionales y productividad operativa.
+          Analiza los logs de tiempos de tramites y devuelve SOLO JSON valido.
+
+          Objetivo:
+          1) Identificar departamentos que superen el promedio esperado de tiempo.
+          2) Sugerir causa probable: falta de personal o complejidad del formulario.
+          3) Construir un plan de accion priorizado.
+
+          Regla de negocio sobre actores:
+          - Cuando departamentoId sea "CLIENTE", ese tiempo corresponde al cliente y NO debe contarse como retraso del departamento interno.
+          - Si observas que el cuello de botella principal está en pasos del cliente, menciónalo explícitamente como externo.
+
+          Regla de severidad:
+          - CRITICO: retraso >= 24h sobre el promedio esperado.
+          - ADVERTENCIA: retraso >= 8h y < 24h sobre el promedio esperado.
+          - INFO: casos por debajo de esos umbrales.
+
+          Responde estrictamente en este schema JSON:
+          {
+            "insights": [
+              {
+                "severidad": "CRITICO | ADVERTENCIA | INFO",
+                "titulo": "string",
+                "descripcion": "string",
+                "departamentoId": "string|null",
+                "funcionarioId": "string|null",
+                "retrasoHoras": 0.0,
+                "causaProbable": "FALTA_PERSONAL | COMPLEJIDAD_FORMULARIO | MIXTO"
+              }
+            ],
+            "planAccion": [
+              {
+                "prioridad": "ALTA | MEDIA | BAJA",
+                "accion": "string",
+                "objetivo": "string",
+                "plazoHoras": "string"
+              }
+            ]
+          }
+
+          No incluyas markdown ni texto adicional. Usa el valor de horasEsperadasPromedio como referencia principal.
+          """;
+
+        String userPrompt = "horasEsperadasPromedio=" + horasEsperadasPromedio + "\n" + logsCompactosJson;
+        return sendToClaude(systemPrompt, userPrompt, 1800);
+    }
+
+    public String sugerirCamposFormulario(String schemaJson, String textoUsuario, String modo) {
+        String systemPrompt = """
+          Eres un asistente para autocompletar formularios de tramites institucionales.
+          Recibirás:
+          1) El JSON Schema del formulario del paso activo.
+          2) Un texto libre del usuario (chat o transcripcion de voz).
+
+          Reglas estrictas:
+          - Devuelve SOLO un JSON valido, sin markdown.
+          - El JSON debe tener esta forma exacta:
+            {
+              "sugerencia": { "campo": valor },
+              "observacion": "texto corto"
+            }
+          - Incluye exclusivamente campos existentes en properties del schema.
+          - Si faltan datos, omite el campo en lugar de inventarlo.
+          - Respeta tipos: string, integer/number, boolean, date/date-time.
+          - Para enum, usa solo valores permitidos.
+          - Si no hay datos utiles, devuelve sugerencia vacia.
+          """;
+
+        String userPrompt = "modo=" + modo + "\nSCHEMA:\n" + schemaJson + "\n\nTEXTO_USUARIO:\n" + textoUsuario;
+        return sendToClaude(systemPrompt, userPrompt, 1200);
+    }
+
+    private String sendToClaude(String systemPrompt, String userContent, int maxTokens) {
         Map<String, Object> requestBody = Map.of(
-                "model", "claude-haiku-4-5-20251001",
-                "max_tokens", 2500,
-                "system", systemPrompt,
-                "messages", List.of(
-                        Map.of("role", "user", "content", politicaNegocio)
-                )
+          "model", "claude-haiku-4-5-20251001",
+          "max_tokens", maxTokens,
+          "system", systemPrompt,
+          "messages", List.of(
+            Map.of("role", "user", "content", userContent)
+          )
         );
 
         HttpHeaders headers = new HttpHeaders();
