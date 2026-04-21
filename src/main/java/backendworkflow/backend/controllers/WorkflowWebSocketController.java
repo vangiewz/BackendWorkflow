@@ -3,6 +3,7 @@ package backendworkflow.backend.controllers;
 import backendworkflow.backend.models.PasoEditadoEvent;
 import backendworkflow.backend.models.PasoMovidoEvent;
 import backendworkflow.backend.models.UsuarioConectadoEvent;
+import backendworkflow.backend.models.WorkflowSyncEvent;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -26,6 +27,12 @@ public class WorkflowWebSocketController {
     @MessageMapping("/workflow/{workflowId}/edit")
     @SendTo("/topic/workflow/{workflowId}/edit")
     public PasoEditadoEvent editPaso(@DestinationVariable String workflowId, PasoEditadoEvent event) {
+        return event;
+    }
+
+    @MessageMapping("/workflow/{workflowId}/sync")
+    @SendTo("/topic/workflow/{workflowId}/sync")
+    public WorkflowSyncEvent syncWorkflow(@DestinationVariable String workflowId, WorkflowSyncEvent event) {
         return event;
     }
 }

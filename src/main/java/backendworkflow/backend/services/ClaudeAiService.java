@@ -36,48 +36,91 @@ public class ClaudeAiService {
                 .collect(Collectors.joining(", "));
 
         String systemPrompt = """
-                Eres un experto analista en BPM (Business Process Management). Tu objetivo es analizar una política de negocio proporcionada por el usuario y generar un flujo de trabajo secuencial estructurado en formato JSON.
+                Eres un experto analista en BPM (Business Process Management). Tu objetivo es analizar una política de negocio proporcionada por el usuario y generar un flujo de trabajo estructurado como un Grafo Dirigido en formato JSON.
                 
                 Sigue estrictamente estas directrices:
                 
                 <reglas>
-                1. DEPARTAMENTOS: Utiliza únicamente los departamentos de esta lista: [{DEPARTAMENTOS}]. Selecciona solo los estrictamente necesarios para el trámite.
-                2. ROL DEL CLIENTE: El "Cliente" ya no participa en el array de "pasos". El sistema asume que el trámite lo inicia automáticamente el Cliente rellenando el "formularioCliente". Ignora cualquier paso introductorio o final de recolección/notificación para el Cliente.
-                3. ESPECIFICACIÓN DEL ACTOR: En la propiedad 'departamentoId' de cada paso, utiliza EXACTAMENTE el ID proporcionado junto a los departamentos seleccionados de la lista.
+                1. DEPARTAMENTOS: Utiliza únicamente los departamentos de esta lista: [{DEPARTAMENTOS}]. 
+                2. ROL DEL CLIENTE: Si un paso requiere intervención del Cliente (por ejemplo, corregir documentos, proveer más información tras un rechazo), asigna el valor `null` a 'departamentoId'. El sistema entenderá que ese paso le pertenece al Cliente.
+                3. ESPECIFICACIÓN DEL ACTOR: En la propiedad 'departamentoId' de cada paso, utiliza EXACTAMENTE el ID proporcionado o `null` si es el Cliente.
                 4. FORMULARIOS REQUERIDOS: 
-                   - Formula un JSON Schema inicial bajo la llave 'formularioCliente' que contenga todos los datos que el usuario debe proporcionar para detonar el flujo.
-                   - Para CADA paso ("pasos"), incluye su propio 'formularioJson' requerido para la aprobación/gestión interna en ese momento particular.
-                5. METADATOS Y TARIFACIÓN: Proporciona un título corto en 'nombreTramite', una breve descripción en 'descripcionTramite', una 'categoria' ("INTERNO" o "EXTERNO") y un 'costoBase' numérico. REGLA ESTRICTA: Si la politica de negocio es para algo interno o la categoría se evalúa como "INTERNO", el costoBase debe ser obligatoriamente 0.
-                6. FORMATO ESTRICTO: Tu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No incluyas markdown (nada de ```json).
+                   - Formula un JSON Schema inicial bajo la llave 'formularioCliente' conteniendo los datos que detonan el flujo.
+                   - Para CADA paso cuya 'tipo' sea "ACTIVIDAD", incluye un 'formularioJson' requerido. 
+                   - Si el paso es de tipo "DECISION", 'formularioJson' debe ser null o vacío.
+                   - TIPOS DE CAMPO SOPORTADOS en los formularios JSON Schema:
+                     * Texto: { "type": "string", "description": "Etiqueta del campo" }
+                     * Número entero: { "type": "integer", "description": "Etiqueta" }
+                     * Booleano/Checkbox: { "type": "boolean", "description": "Etiqueta" }
+                     * Fecha: { "type": "string", "format": "date", "description": "Etiqueta" }
+                     * Fecha y Hora: { "type": "string", "format": "date-time", "description": "Etiqueta" }
+                   - Usa "format": "date" para campos de fecha (ej. fecha de nacimiento, fecha de inicio) y "format": "date-time" para fecha con hora.
+                5. ESTRUCTURA DE GRAFO (Nodos y Aristas):
+                   - Sustituye el antiguo concepto lineal por nodos de grafo. Cada paso debe tener un 'id' único (ej: "paso_1").
+                   - Propiedad 'tipo': Puede ser "ACTIVIDAD" o "DECISION".
+                   - Propiedad 'siguientes': Es un mapa que define las aristas salientes. Para ACTIVIDADES lineales, usa {"default": "id_del_siguiente_paso"}. Para un rombo de DECISION, incluye múltiples opciones, ej: {"Aprobado": "paso_3", "Rechazado": "paso_1"}. Si no hay paso siguiente (fin del flujo), el mapa 'siguientes' debe estar vacío o no existir.
+                6. METADATOS: Proporciona 'nombreTramite', 'descripcionTramite', 'categoria' ("INTERNO" o "EXTERNO") y 'costoBase' numérico. REGLA ESTRICTA: Si la categoria es "INTERNO", el costoBase debe ser 0.
+                7. FORMATO ESTRICTO: Tu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No incluyas markdown.
                 </reglas>
                 
                 <estructura_json_esperada>
                 {
                   "nombreTramite": "Nombre corto y profesional del trámite",
-                  "descripcionTramite": "Descripción del alcance del trámite...",
+                  "descripcionTramite": "Descripción del alcance...",
                   "categoria": "EXTERNO",
                   "costoBase": 150.0,
                   "formularioCliente": {
                     "type": "object",
                     "properties": {
-                      "ejemploDatoInicial": {
-                        "type": "string",
-                        "description": "Descripción clara del campo inicial"
-                      }
+                      "ejemploDatoInicial": { "type": "string", "description": "Un dato de texto" },
+                      "fechaSolicitud": { "type": "string", "format": "date", "description": "Fecha de la solicitud" }
                     },
-                    "required": ["ejemploDatoInicial"]
+                    "required": ["ejemploDatoInicial", "fechaSolicitud"]
                   },
                   "pasos": [
                     {
-                      "orden": 1,
+                      "id": "paso_1",
+                      "tipo": "ACTIVIDAD",
                       "departamentoId": "ID_DEL_DEPARTAMENTO_REAL",
                       "nombrePaso": "Revisión Documental Interna",
                       "formularioJson": {
                         "type": "object",
-                        "properties": {
-                           "aprobado": { "type": "boolean" }
-                        }
+                        "properties": { "documentacionOK": { "type": "boolean" } }
+                      },
+                      "siguientes": { "default": "paso_2" }
+                    },
+                    {
+                      "id": "paso_2",
+                      "tipo": "DECISION",
+                      "departamentoId": "ID_DEL_DEPARTAMENTO_REAL",
+                      "nombrePaso": "¿Documentación Aprobada?",
+                      "formularioJson": null,
+                      "siguientes": {
+                        "Aprobada": "paso_3",
+                        "Rechazada": "paso_retroalimentacion_cliente"
                       }
+                    },
+                    {
+                      "id": "paso_retroalimentacion_cliente",
+                      "tipo": "ACTIVIDAD",
+                      "departamentoId": null,
+                      "nombrePaso": "Substraer Documentos Faltantes",
+                      "formularioJson": {
+                        "type": "object",
+                        "properties": { "nuevoDocumento": { "type": "string" } }
+                      },
+                      "siguientes": { "default": "paso_1" }
+                    },
+                    {
+                      "id": "paso_3",
+                      "tipo": "ACTIVIDAD",
+                      "departamentoId": "OTRO_ID_DEPARTAMENTO",
+                      "nombrePaso": "Firma Final",
+                      "formularioJson": {
+                        "type": "object",
+                        "properties": { "firma": { "type": "string" } }
+                      },
+                      "siguientes": {}
                     }
                   ]
                 }

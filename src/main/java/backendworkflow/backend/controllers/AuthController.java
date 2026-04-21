@@ -66,6 +66,22 @@ public class AuthController {
     }
 
     /**
+     * Login global estructurado para la App Móvil.
+     * Soporta ingreso de cualquier rol y captura de FCM token.
+     */
+    @PostMapping("/mobile/login")
+    public ResponseEntity<?> loginMobile(@Valid @RequestBody LoginRequest request) {
+        try {
+            AuthResponse response = authService.loginMobile(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
      * Registro exclusivo para nuevos clientes.
      * Retorna un JWT válido (auto-login tras registro exitoso).
      */

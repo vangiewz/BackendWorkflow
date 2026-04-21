@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/workflows")
@@ -32,5 +33,37 @@ public class WorkflowController {
     @GetMapping
     public ResponseEntity<List<PlantillaWorkflow>> getAllWorkflows() {
         return ResponseEntity.ok(plantillaWorkflowRepository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO', 'CLIENTE')")
+    public ResponseEntity<PlantillaWorkflow> getWorkflowById(@PathVariable String id) {
+        Optional<PlantillaWorkflow> workflow = plantillaWorkflowRepository.findById(id);
+        return workflow.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PlantillaWorkflow> updateWorkflow(@PathVariable String id, @RequestBody PlantillaWorkflow plantilla) {
+        if (!plantillaWorkflowRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        plantilla.setId(id);
+        PlantillaWorkflow saved = plantillaWorkflowRepository.save(plantilla);
+        return ResponseEntity.ok(saved);
+    }
+
+    @PatchMapping("/{id}/toggle-active")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PlantillaWorkflow> toggleActive(@PathVariable String id) {
+        Optional<PlantillaWorkflow> optWorkflow = plantillaWorkflowRepository.findById(id);
+        if (optWorkflow.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        PlantillaWorkflow workflow = optWorkflow.get();
+        workflow.setActive(!workflow.isActive());
+        PlantillaWorkflow saved = plantillaWorkflowRepository.save(workflow);
+        return ResponseEntity.ok(saved);
     }
 }
