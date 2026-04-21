@@ -12,6 +12,8 @@ public record LoginRequest(
         String email,
 
         @NotBlank(message = "La contraseña es obligatoria")
-        String password
+        String password,
+
+        String fcmToken
 ) {
 }

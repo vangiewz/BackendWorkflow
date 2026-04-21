@@ -6,9 +6,11 @@ package backendworkflow.backend.models;
  */
 public record AuthResponse(
         String token,
+        String id,
         String email,
         String nombre,
         String rol,
+        String departamentoId,
         String tipoUsuario
 ) {
 }

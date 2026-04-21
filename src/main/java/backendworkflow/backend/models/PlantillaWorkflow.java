@@ -1,5 +1,6 @@
 package backendworkflow.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -48,10 +49,12 @@ public class PlantillaWorkflow {
         this.descripcion = descripcion;
     }
 
+    @JsonProperty("isActive")
     public boolean isActive() {
         return isActive;
     }
 
+    @JsonProperty("isActive")
     public void setActive(boolean active) {
         isActive = active;
     }

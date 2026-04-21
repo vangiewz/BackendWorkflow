@@ -84,10 +84,10 @@ public class UsuarioController {
 
     /**
      * Permite a un empleado cambiar su propia contraseña.
-     * Requiere que el usuario esté autenticado como TIPO_USUARIO.
+     * Universal para cualquier usuario logueado.
      */
-    @PatchMapping("/me/password") // PATCH is better for partial update, though PUT is also fine. Wait, previously I planned PUT, but PATCH was in my brain logic. Let's use PATCH since it updates only password.
-    @PreAuthorize("hasAuthority('TIPO_USUARIO')")
+    @PatchMapping("/me/password")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> changePassword(
             Principal principal,
             @Valid @RequestBody ChangePasswordRequest request
@@ -101,7 +101,30 @@ public class UsuarioController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-
+    /**
+     * Permite a cualquier usuario cambiar su propio teléfono.
+     */
+    @PatchMapping("/me/telefono")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> changeMyTelefono(
+            Principal principal,
+            @RequestBody Map<String, String> body
+    ) {
+        try {
+            String telefono = body.get("telefono");
+            
+            // Buscar al usuario por el email del token para obtener su ID
+            backendworkflow.backend.models.Usuario user = usuarioService.findByEmail(principal.getName())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                
+            UsuarioResponse response = usuarioService.changeTelefono(user.getId(), telefono);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
     /**
      * Obtiene todos los usuarios internos (empleados).
      * Solo accesible para usuarios con rol ADMIN.
@@ -110,6 +133,35 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<java.util.List<UsuarioResponse>> getAllUsuarios() {
         return ResponseEntity.ok(usuarioService.findAllUsuarios());
+    }
+
+    /**
+     * Obtiene un usuario especifico.
+     * Accesible por backend para identificar a los iniciadores de los tramites.
+     */
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'FUNCIONARIO')")
+    public ResponseEntity<?> getUsuarioById(@PathVariable String id) {
+        try {
+            backendworkflow.backend.models.Usuario user = usuarioService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            
+            // Map Entity to Response
+            UsuarioResponse response = new UsuarioResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getNombre(),
+                user.getRol(),
+                user.getDepartamentoId(),
+                user.getTelefono(),
+                user.isActive()
+            );
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
     /**

@@ -70,9 +70,11 @@ public class AuthService {
 
         return new AuthResponse(
                 token,
+                usuario.getId(),
                 usuario.getEmail(),
                 usuario.getNombre(),
                 usuario.getRol(),
+                usuario.getDepartamentoId(),
                 "USUARIO"
         );
     }
@@ -106,10 +108,62 @@ public class AuthService {
 
         return new AuthResponse(
                 token,
+                usuario.getId(),
                 usuario.getEmail(),
                 usuario.getNombre(),
                 usuario.getRol(),
+                usuario.getDepartamentoId(),
                 "CLIENTE"
+        );
+    }
+
+    /**
+     * Login global para la aplicación móvil.
+     * Permite loguearse a ADMIN, FUNCIONARIO y CLIENTE.
+     * Guarda el fcmToken si es proporcionado (para notificaciones Push).
+     *
+     * @param request Email, password y opcionalmente fcmToken
+     * @return AuthResponse con JWT
+     */
+    public AuthResponse loginMobile(LoginRequest request) {
+        Usuario usuario = usuarioService.findByEmail(request.email())
+                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
+
+        if (!usuario.isActive()) {
+            throw new RuntimeException("La cuenta del usuario está desactivada");
+        }
+
+        if (!passwordEncoder.matches(request.password(), usuario.getPassword())) {
+            throw new RuntimeException("Credenciales inválidas");
+        }
+
+        // Si Envía un FCM token, lo guardamos si no estaba ya
+        if (request.fcmToken() != null && !request.fcmToken().isBlank()) {
+            if (usuario.getFcmTokens() == null) {
+                usuario.setFcmTokens(new ArrayList<>());
+            }
+            if (!usuario.getFcmTokens().contains(request.fcmToken())) {
+                usuario.getFcmTokens().add(request.fcmToken());
+                usuarioService.save(usuario);
+            }
+        }
+
+        String tipoUsuario = "CLIENTE".equals(usuario.getRol()) ? "CLIENTE" : "USUARIO";
+        String token = jwtService.generateToken(
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getRol(),
+                tipoUsuario
+        );
+
+        return new AuthResponse(
+                token,
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getNombre(),
+                usuario.getRol(),
+                usuario.getDepartamentoId(),
+                tipoUsuario
         );
     }
 
@@ -146,9 +200,11 @@ public class AuthService {
 
         return new AuthResponse(
                 token,
+                savedUsuario.getId(),
                 savedUsuario.getEmail(),
                 savedUsuario.getNombre(),
                 "CLIENTE",
+                null,
                 "CLIENTE"
         );
     }

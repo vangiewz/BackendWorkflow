@@ -42,6 +42,10 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
+    public Optional<Usuario> findById(String id) {
+        return usuarioRepository.findById(id);
+    }
+
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
