@@ -65,6 +65,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     final String rol = jwtService.extractRol(jwt);
                     final String tipoUsuario = jwtService.extractTipoUsuario(jwt);
 
+                    logger.info("JWT Auth OK - email: " + email + ", rol: " + rol + ", tipoUsuario: " + tipoUsuario + ", authorities: [ROLE_" + rol + ", TIPO_" + tipoUsuario + "]");
+
                     // Crear authorities con el rol y el tipo de usuario
                     List<SimpleGrantedAuthority> authorities = List.of(
                             new SimpleGrantedAuthority("ROLE_" + rol),
@@ -77,6 +79,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    logger.warn("JWT token validation failed for email: " + email);
                 }
             }
         } catch (Exception e) {

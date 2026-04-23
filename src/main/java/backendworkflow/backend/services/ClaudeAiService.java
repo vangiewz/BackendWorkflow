@@ -2,6 +2,9 @@ package backendworkflow.backend.services;
 
 import backendworkflow.backend.models.Departamento;
 import backendworkflow.backend.repositories.DepartamentoRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class ClaudeAiService {
 
+  private static final int WORKFLOW_MIN_OUTPUT_TOKENS = 2500;
+  private static final int WORKFLOW_MAX_OUTPUT_TOKENS = 4000;
+  private static final int WORKFLOW_REPAIR_MIN_TOKENS = 2000;
+  private static final int WORKFLOW_REPAIR_MAX_TOKENS = 3500;
+
     private final DepartamentoRepository departamentoRepository;
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Value("${claude.api.key}")
     private String claudeApiKey;
@@ -26,6 +35,7 @@ public class ClaudeAiService {
     public ClaudeAiService(DepartamentoRepository departamentoRepository) {
         this.departamentoRepository = departamentoRepository;
         this.restTemplate = new RestTemplate();
+      this.objectMapper = new ObjectMapper();
     }
 
     public String generarWorkflow(String politicaNegocio) {
@@ -36,173 +46,293 @@ public class ClaudeAiService {
                 .collect(Collectors.joining(", "));
 
         String systemPrompt = """
-                Eres un experto analista en BPM (Business Process Management). Tu objetivo es analizar una política de negocio proporcionada por el usuario y generar un flujo de trabajo estructurado como un Grafo Dirigido en formato JSON.
-                
-                Sigue estrictamente estas directrices:
-                
-                <reglas>
-                1. DEPARTAMENTOS: Utiliza únicamente los departamentos de esta lista: [{DEPARTAMENTOS}]. 
-                2. ROL DEL CLIENTE: Si un paso requiere intervención del Cliente (por ejemplo, corregir documentos, proveer más información tras un rechazo), asigna el valor `null` a 'departamentoId'. El sistema entenderá que ese paso le pertenece al Cliente.
-                3. ESPECIFICACIÓN DEL ACTOR: En la propiedad 'departamentoId' de cada paso, utiliza EXACTAMENTE el ID proporcionado o `null` si es el Cliente.
-                4. FORMULARIOS REQUERIDOS: 
-                   - Formula un JSON Schema inicial bajo la llave 'formularioCliente' conteniendo los datos que detonan el flujo.
-                   - Para CADA paso cuya 'tipo' sea "ACTIVIDAD", incluye un 'formularioJson' requerido. 
-                   - Si el paso es de tipo "DECISION", 'formularioJson' debe ser null o vacío.
-                   - TIPOS DE CAMPO SOPORTADOS en los formularios JSON Schema:
-                     * Texto: { "type": "string", "description": "Etiqueta del campo" }
-                     * Número entero: { "type": "integer", "description": "Etiqueta" }
-                     * Booleano/Checkbox: { "type": "boolean", "description": "Etiqueta" }
-                     * Fecha: { "type": "string", "format": "date", "description": "Etiqueta" }
-                     * Fecha y Hora: { "type": "string", "format": "date-time", "description": "Etiqueta" }
-                   - Usa "format": "date" para campos de fecha (ej. fecha de nacimiento, fecha de inicio) y "format": "date-time" para fecha con hora.
-                5. ESTRUCTURA DE GRAFO (Nodos y Aristas):
-                   - Sustituye el antiguo concepto lineal por nodos de grafo. Cada paso debe tener un 'id' único (ej: "paso_1").
-                   - Propiedad 'tipo': Puede ser "ACTIVIDAD" o "DECISION".
-                   - Propiedad 'siguientes': Es un mapa que define las aristas salientes. Para ACTIVIDADES lineales, usa {"default": "id_del_siguiente_paso"}. Para un rombo de DECISION, incluye múltiples opciones, ej: {"Aprobado": "paso_3", "Rechazado": "paso_1"}. Si no hay paso siguiente (fin del flujo), el mapa 'siguientes' debe estar vacío o no existir.
-                6. METADATOS: Proporciona 'nombreTramite', 'descripcionTramite', 'categoria' ("INTERNO" o "EXTERNO") y 'costoBase' numérico. REGLA ESTRICTA: Si la categoria es "INTERNO", el costoBase debe ser 0.
-                7. FORMATO ESTRICTO: Tu respuesta debe ser EXCLUSIVAMENTE un objeto JSON válido. No incluyas markdown.
-                </reglas>
-                
-                <estructura_json_esperada>
-                {
-                  "nombreTramite": "Nombre corto y profesional del trámite",
-                  "descripcionTramite": "Descripción del alcance...",
-                  "categoria": "EXTERNO",
-                  "costoBase": 150.0,
-                  "formularioCliente": {
-                    "type": "object",
-                    "properties": {
-                      "ejemploDatoInicial": { "type": "string", "description": "Un dato de texto" },
-                      "fechaSolicitud": { "type": "string", "format": "date", "description": "Fecha de la solicitud" }
-                    },
-                    "required": ["ejemploDatoInicial", "fechaSolicitud"]
-                  },
-                  "pasos": [
-                    {
-                      "id": "paso_1",
-                      "tipo": "ACTIVIDAD",
-                      "departamentoId": "ID_DEL_DEPARTAMENTO_REAL",
-                      "nombrePaso": "Revisión Documental Interna",
-                      "formularioJson": {
-                        "type": "object",
-                        "properties": { "documentacionOK": { "type": "boolean" } }
-                      },
-                      "siguientes": { "default": "paso_2" }
-                    },
-                    {
-                      "id": "paso_2",
-                      "tipo": "DECISION",
-                      "departamentoId": "ID_DEL_DEPARTAMENTO_REAL",
-                      "nombrePaso": "¿Documentación Aprobada?",
-                      "formularioJson": null,
-                      "siguientes": {
-                        "Aprobada": "paso_3",
-                        "Rechazada": "paso_retroalimentacion_cliente"
-                      }
-                    },
-                    {
-                      "id": "paso_retroalimentacion_cliente",
-                      "tipo": "ACTIVIDAD",
-                      "departamentoId": null,
-                      "nombrePaso": "Substraer Documentos Faltantes",
-                      "formularioJson": {
-                        "type": "object",
-                        "properties": { "nuevoDocumento": { "type": "string" } }
-                      },
-                      "siguientes": { "default": "paso_1" }
-                    },
-                    {
-                      "id": "paso_3",
-                      "tipo": "ACTIVIDAD",
-                      "departamentoId": "OTRO_ID_DEPARTAMENTO",
-                      "nombrePaso": "Firma Final",
-                      "formularioJson": {
-                        "type": "object",
-                        "properties": { "firma": { "type": "string" } }
-                      },
-                      "siguientes": {}
-                    }
-                  ]
-                }
-                </estructura_json_esperada>
+                SOLO JSON sin markdown. Estructura:{"nombreTramite":"","descripcionTramite":"","categoria":"INTERNO|EXTERNO","costoBase":0,"formularioCliente":{"type":"object","properties":{},"required":[]},"pasos":[{"id":"paso_N","tipo":"ACTIVIDAD|DECISION","departamentoId":"id|null","nombrePaso":"","formularioJson":{}|null,"siguientes":{}}]}
+                Deptos:[{DEPARTAMENTOS}]. 
+                REGLAS: Cliente=departamentoId null. DECISION=formularioJson null, siguientes por condicion (ej. "Aprobado":"paso_3", "Rechazado":"paso_4"). ACTIVIDAD=formularioJson requerido, siguientes:"default" si lineal.
+                IMPORTANTE: Evita los bucles infinitos. Si un trámite se rechaza, es preferible que la ruta termine en un paso final de notificación en lugar de volver eternamente al paso 1, al menos hasta que el cliente decida.
+                INTERNO=>costoBase=0. Sin "description" en formularios. Sé compacto.
                 """.replace("{DEPARTAMENTOS}", stringDeDepartamentosBD);
 
-        return sendToClaude(systemPrompt, politicaNegocio, 2500);
+        int workflowBudget = estimateWorkflowOutputTokens(politicaNegocio);
+        String rawResponse = sendToClaude(systemPrompt, politicaNegocio, workflowBudget);
+
+        String normalized = normalizeJsonObject(rawResponse);
+        if (normalized != null && isValidWorkflowPayload(normalized)) {
+          return normalized;
+        }
+
+        int repairBudget = Math.max(WORKFLOW_REPAIR_MIN_TOKENS, Math.min(WORKFLOW_REPAIR_MAX_TOKENS, workflowBudget - 200));
+        String repaired = intentarRepararWorkflowJson(rawResponse, stringDeDepartamentosBD, repairBudget);
+        String repairedNormalized = normalizeJsonObject(repaired);
+        if (repairedNormalized != null && isValidWorkflowPayload(repairedNormalized)) {
+          return repairedNormalized;
+        }
+
+        return buildFallbackWorkflowJson(politicaNegocio, departamentos);
           }
 
           public String analizarLogsTramites(String logsCompactosJson, double horasEsperadasPromedio) {
         String systemPrompt = """
-          Eres un consultor senior de procesos institucionales y productividad operativa.
-          Analiza los logs de tiempos de tramites y devuelve SOLO JSON valido.
-
-          Objetivo:
-          1) Identificar departamentos que superen el promedio esperado de tiempo.
-          2) Sugerir causa probable: falta de personal o complejidad del formulario.
-          3) Construir un plan de accion priorizado.
-
-          Regla de negocio sobre actores:
-          - Cuando departamentoId sea "CLIENTE", ese tiempo corresponde al cliente y NO debe contarse como retraso del departamento interno.
-          - Si observas que el cuello de botella principal está en pasos del cliente, menciónalo explícitamente como externo.
-
-          Regla de severidad:
-          - CRITICO: retraso >= 24h sobre el promedio esperado.
-          - ADVERTENCIA: retraso >= 8h y < 24h sobre el promedio esperado.
-          - INFO: casos por debajo de esos umbrales.
-
-          Responde estrictamente en este schema JSON:
-          {
-            "insights": [
-              {
-                "severidad": "CRITICO | ADVERTENCIA | INFO",
-                "titulo": "string",
-                "descripcion": "string",
-                "departamentoId": "string|null",
-                "funcionarioId": "string|null",
-                "retrasoHoras": 0.0,
-                "causaProbable": "FALTA_PERSONAL | COMPLEJIDAD_FORMULARIO | MIXTO"
-              }
-            ],
-            "planAccion": [
-              {
-                "prioridad": "ALTA | MEDIA | BAJA",
-                "accion": "string",
-                "objetivo": "string",
-                "plazoHoras": "string"
-              }
-            ]
-          }
-
-          No incluyas markdown ni texto adicional. Usa el valor de horasEsperadasPromedio como referencia principal.
+          SOLO JSON. Analiza logs de tiempos de tramites. Identifica deptos que superen promedio, sugiere causa(FALTA_PERSONAL|COMPLEJIDAD_FORMULARIO|MIXTO), plan de accion.
+          departamentoId="CLIENTE"=tiempo externo, no retraso interno. Severidad: CRITICO>=24h, ADVERTENCIA>=8h<24h, INFO=resto.
+          Schema:{"insights":[{"severidad":"","titulo":"","descripcion":"","departamentoId":null,"funcionarioId":null,"retrasoHoras":0,"causaProbable":""}],"planAccion":[{"prioridad":"ALTA|MEDIA|BAJA","accion":"","objetivo":"","plazoHoras":""}]}
+          Usa horasEsperadasPromedio como referencia. Sin markdown.
           """;
 
         String userPrompt = "horasEsperadasPromedio=" + horasEsperadasPromedio + "\n" + logsCompactosJson;
-        return sendToClaude(systemPrompt, userPrompt, 1800);
+        int budget = estimateTokensByInputSize(userPrompt, 900, 1700, 300);
+        return sendToClaude(systemPrompt, userPrompt, budget);
     }
 
     public String sugerirCamposFormulario(String schemaJson, String textoUsuario, String modo) {
         String systemPrompt = """
-          Eres un asistente para autocompletar formularios de tramites institucionales.
-          Recibirás:
-          1) El JSON Schema del formulario del paso activo.
-          2) Un texto libre del usuario (chat o transcripcion de voz).
-
-          Reglas estrictas:
-          - Devuelve SOLO un JSON valido, sin markdown.
-          - El JSON debe tener esta forma exacta:
-            {
-              "sugerencia": { "campo": valor },
-              "observacion": "texto corto"
-            }
-          - Incluye exclusivamente campos existentes en properties del schema.
-          - Si faltan datos, omite el campo en lugar de inventarlo.
-          - Respeta tipos: string, integer/number, boolean, date/date-time.
-          - Para enum, usa solo valores permitidos.
-          - Si no hay datos utiles, devuelve sugerencia vacia.
+          SOLO JSON. Autocompleta formulario desde texto del usuario.
+          Formato:{"sugerencia":{"campo":valor},"observacion":"texto corto"}
+          Solo campos existentes en properties del schema. Omite si faltan datos. Respeta tipos(string,number,boolean,date). Enum=solo valores permitidos. Sin datos utiles=sugerencia vacia. Sin markdown.
           """;
 
         String userPrompt = "modo=" + modo + "\nSCHEMA:\n" + schemaJson + "\n\nTEXTO_USUARIO:\n" + textoUsuario;
-        return sendToClaude(systemPrompt, userPrompt, 1200);
+        int budget = estimateTokensByInputSize(userPrompt, 500, 1000, 150);
+        return sendToClaude(systemPrompt, userPrompt, budget);
     }
+
+    public String asistirEditorWorkflow(
+            String prompt,
+            String operatorRole,
+            String mode,
+            Map<String, Object> workflowDraft
+    ) {
+        if (prompt == null || prompt.isBlank()) {
+            throw new RuntimeException("Debes enviar una consulta para el asistente.");
+        }
+
+        List<Departamento> departamentos = departamentoRepository.findAll();
+        String departamentosDisponibles = departamentos.stream()
+                .map(d -> d.getNombre() + " (ID: " + d.getId() + ")")
+                .collect(Collectors.joining(", "));
+
+        String workflowDraftJson = toJsonSafe(workflowDraft);
+
+        String systemPrompt = """
+                SOLO JSON. Asiste operador en editor de workflows. Detecta inconsistencias, propone correcciones.
+                Deptos permitidos:[{DEPARTAMENTOS}]. 
+                REGLAS ESTRICTAS (NO MARQUES COMO ERROR LO SIGUIENTE):
+                - departamentoId nulo = Paso del CLIENTE. Esto es VÁLIDO Y CORRECTO.
+                - tipo DECISION = formularioJson debe ser null. Las decisiones NO llevan formulario. Esto es CORRECTO.
+                - tipo ACTIVIDAD = formularioJson requerido, siguientes="default" si es lineal.
+                - INTERNO => costoBase=0. No inventar IDs.
+                Formato:{"respuesta":"texto breve","guiaUso":[],"correccionesDetectadas":[{"severidad":"ALTA|MEDIA|BAJA","titulo":"","detalle":"","accion":""}],"workflowSugerido":{"nombreTramite":"","descripcionTramite":"","categoria":"","costoBase":0,"formularioCliente":{},"pasos":[]}|null}
+                Sin cambios estructurales=workflowSugerido null. Sin markdown.
+                """.replace("{DEPARTAMENTOS}", departamentosDisponibles);
+
+        String userPrompt = "role:%s mode:%s\nWORKFLOW:%s\nCONSULTA:%s".formatted(
+                operatorRole != null ? operatorRole : "ADMIN",
+                mode != null ? mode : "create",
+                workflowDraftJson,
+                prompt
+        );
+
+        int budget = estimateTokensByInputSize(userPrompt, 900, 1800, 250);
+        String rawResponse = sendToClaude(systemPrompt, userPrompt, budget);
+        String normalized = normalizeJsonObject(rawResponse);
+        if (normalized != null) {
+            return normalized;
+        }
+        
+        // Si Claude falló en entregar JSON puro y arrojó texto libre, lo estructuramos a la fuerza:
+        java.util.Map<String, Object> fallback = new java.util.HashMap<>();
+        fallback.put("respuesta", rawResponse.length() > 500 ? rawResponse.substring(0, 500) + "..." : rawResponse);
+        fallback.put("guiaUso", java.util.List.of());
+        fallback.put("correccionesDetectadas", java.util.List.of());
+        fallback.put("workflowSugerido", null);
+        return toJsonSafe(fallback);
+    }
+
+    private String toJsonSafe(Map<String, Object> value) {
+        if (value == null) {
+            return "{}";
+        }
+        try {
+            return objectMapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            return "{}";
+        }
+    }
+
+        private String intentarRepararWorkflowJson(String rawResponse, String departamentosDisponibles, int maxTokens) {
+            String systemPrompt = """
+              SOLO JSON valido compacto. Repara workflow truncado/malformado. Campos requeridos:nombreTramite,descripcionTramite,categoria,costoBase,formularioCliente,pasos[]. Deptos:[{DEPARTAMENTOS}]. Completa coherente si truncado. Sin description ni markdown.
+              """.replace("{DEPARTAMENTOS}", departamentosDisponibles);
+
+            String userPrompt = "REPARAR:\n" + rawResponse;
+            return sendToClaude(systemPrompt, userPrompt, maxTokens);
+        }
+
+        private int estimateWorkflowOutputTokens(String politicaNegocio) {
+          return estimateTokensByInputSize(
+              politicaNegocio,
+              WORKFLOW_MIN_OUTPUT_TOKENS,
+              WORKFLOW_MAX_OUTPUT_TOKENS,
+              520
+          );
+        }
+
+        private int estimateTokensByInputSize(String input, int minTokens, int maxTokens, int overhead) {
+          int length = input == null ? 0 : input.length();
+          int estimatedInputTokens = (length / 4) + overhead;
+          // Use 1:1 ratio instead of 1.5x to save tokens — prompts are now compact enough
+          int estimatedOutput = estimatedInputTokens;
+
+          if (estimatedOutput < minTokens) {
+            return minTokens;
+          }
+          if (estimatedOutput > maxTokens) {
+            return maxTokens;
+          }
+          return estimatedOutput;
+        }
+
+              private String buildFallbackWorkflowJson(String politicaNegocio, List<Departamento> departamentos) {
+            String deptoId = departamentos.isEmpty() ? null : departamentos.get(0).getId();
+
+            Map<String, Object> formularioCliente = Map.of(
+              "type", "object",
+              "properties", Map.of(
+                "detalleSolicitud", Map.of("type", "string"),
+                "fechaSolicitud", Map.of("type", "string", "format", "date")
+              ),
+              "required", List.of("detalleSolicitud", "fechaSolicitud")
+            );
+
+            java.util.Map<String, Object> paso1 = new java.util.HashMap<>();
+            paso1.put("id", "paso_1");
+            paso1.put("tipo", "ACTIVIDAD");
+            paso1.put("departamentoId", deptoId);
+            paso1.put("nombrePaso", "Revision Inicial");
+            paso1.put("formularioJson", Map.of("type", "object", "properties", Map.of("datosCompletos", Map.of("type", "boolean")), "required", List.of("datosCompletos")));
+            paso1.put("siguientes", Map.of("default", "paso_2"));
+
+            java.util.Map<String, Object> paso2 = new java.util.HashMap<>();
+            paso2.put("id", "paso_2");
+            paso2.put("tipo", "DECISION");
+            paso2.put("departamentoId", deptoId);
+            paso2.put("nombrePaso", "Datos Correctos");
+            paso2.put("formularioJson", null);
+            paso2.put("siguientes", Map.of("Aprobado", "paso_3", "Rechazado", "paso_4"));
+
+            java.util.Map<String, Object> paso3 = new java.util.HashMap<>();
+            paso3.put("id", "paso_3");
+            paso3.put("tipo", "ACTIVIDAD");
+            paso3.put("departamentoId", deptoId);
+            paso3.put("nombrePaso", "Resolucion Final");
+            paso3.put("formularioJson", Map.of("type", "object", "properties", Map.of("resultado", Map.of("type", "string")), "required", List.of("resultado")));
+            paso3.put("siguientes", Map.of());
+
+            java.util.Map<String, Object> paso4 = new java.util.HashMap<>();
+            paso4.put("id", "paso_4");
+            paso4.put("tipo", "ACTIVIDAD");
+            paso4.put("departamentoId", null);
+            paso4.put("nombrePaso", "Solicitud de Ajustes");
+            paso4.put("formularioJson", Map.of("type", "object", "properties", Map.of("observacionCliente", Map.of("type", "string")), "required", List.of("observacionCliente")));
+            paso4.put("siguientes", Map.of("default", "paso_1"));
+
+            String nombre = "Workflow Generado";
+            if (politicaNegocio != null && !politicaNegocio.isBlank()) {
+                nombre = politicaNegocio.length() > 50 ? politicaNegocio.substring(0, 50).trim() : politicaNegocio.trim();
+            }
+
+            Map<String, Object> payload = new java.util.HashMap<>();
+            payload.put("nombreTramite", nombre);
+            payload.put("descripcionTramite", "Flujo generado por fallback automatico.");
+            payload.put("categoria", "EXTERNO");
+            payload.put("costoBase", 0);
+            payload.put("formularioCliente", formularioCliente);
+            payload.put("pasos", List.of(paso1, paso2, paso3, paso4));
+
+            try {
+                return objectMapper.writeValueAsString(payload);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("No se pudo construir el workflow fallback.");
+            }
+              }
+
+        private boolean isValidWorkflowPayload(String payload) {
+          try {
+            JsonNode node = objectMapper.readTree(payload);
+            if (!node.isObject()) {
+              return false;
+            }
+            if (!node.hasNonNull("nombreTramite") || !node.hasNonNull("descripcionTramite")) {
+              return false;
+            }
+            if (!node.hasNonNull("categoria") || !node.has("costoBase")) {
+              return false;
+            }
+            if (!node.hasNonNull("formularioCliente")) {
+              return false;
+            }
+            JsonNode pasos = node.get("pasos");
+            return pasos != null && pasos.isArray();
+          } catch (Exception e) {
+            return false;
+          }
+        }
+
+        private String normalizeJsonObject(String raw) {
+          if (raw == null || raw.isBlank()) {
+            return null;
+          }
+
+          String trimmed = raw.trim();
+          if (trimmed.startsWith("```")) {
+            trimmed = trimmed.replaceFirst("^```(?:json)?\\s*", "");
+            trimmed = trimmed.replaceFirst("\\s*```$", "");
+            trimmed = trimmed.trim();
+          }
+
+          int start = trimmed.indexOf('{');
+          if (start < 0) {
+            return null;
+          }
+
+          int depth = 0;
+          boolean inString = false;
+          boolean escaped = false;
+
+          for (int i = start; i < trimmed.length(); i++) {
+            char c = trimmed.charAt(i);
+
+            if (escaped) {
+              escaped = false;
+              continue;
+            }
+
+            if (c == '\\') {
+              escaped = true;
+              continue;
+            }
+
+            if (c == '"') {
+              inString = !inString;
+              continue;
+            }
+
+            if (inString) {
+              continue;
+            }
+
+            if (c == '{') {
+              depth++;
+            } else if (c == '}') {
+              depth--;
+              if (depth == 0) {
+                return trimmed.substring(start, i + 1);
+              }
+            }
+          }
+
+          return null;
+        }
 
     private String sendToClaude(String systemPrompt, String userContent, int maxTokens) {
         Map<String, Object> requestBody = Map.of(
