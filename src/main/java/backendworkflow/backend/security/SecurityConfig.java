@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * Configuración central de Spring Security 7.
@@ -47,11 +48,26 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/ws-workflow/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/api/auth/**", "/ws-workflow/**", "/api/workflows/ai/**").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(new org.springframework.web.filter.OncePerRequestFilter() {
+                @Override
+                protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse res, jakarta.servlet.FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
+                    if (req.getRequestURI().contains("/ai/generate")) {
+                        System.out.println("===> INCOMING REQUEST: " + req.getMethod() + " " + req.getRequestURI());
+                        System.out.println("Origin: " + req.getHeader("Origin"));
+                        System.out.println("Authorization: " + (req.getHeader("Authorization") != null ? "Present" : "null"));
+                    }
+                    filterChain.doFilter(req, res);
+                    if (req.getRequestURI().contains("/ai/generate")) {
+                        System.out.println("<=== OUTGOING STATUS: " + res.getStatus());
+                    }
+                }
+            }, CorsFilter.class)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -61,8 +77,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Origin"));
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        // Removemos allowCredentials ya que usamos JWT por cabecera y hace conflicto con "*" en origins/headers
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -132,10 +132,9 @@ public class TramiteService {
             decisionData.put("decision", decisionElegida);
             tramite.getRespuestas().put(pasoId, decisionData);
         } else {
-            // Para actividades, usar "default" o la primera clave disponible
-            if (siguientes != null && !siguientes.isEmpty()) {
-                siguientePasoId = siguientes.getOrDefault("default", siguientes.values().iterator().next());
-            }
+            // Para actividades, resolver por "default" o por una clave que coincida con la respuesta.
+            // Ejemplo: siguientes {"true": "paso_1", "false": "paso_4"} con respuesta booleana.
+            siguientePasoId = resolveNextStepForActivity(siguientes, respuesta, decisionElegida);
         }
 
         // Avanzar o finalizar
@@ -267,6 +266,50 @@ public class TramiteService {
             return false;
         }
         return props.containsKey(fieldKey);
+    }
+
+    private String resolveNextStepForActivity(
+            Map<String, String> siguientes,
+            Map<String, Object> respuesta,
+            String decisionElegida
+    ) {
+        if (siguientes == null || siguientes.isEmpty()) {
+            return null;
+        }
+
+        if (siguientes.containsKey("default")) {
+            return siguientes.get("default");
+        }
+
+        if (siguientes.size() == 1) {
+            return siguientes.values().iterator().next();
+        }
+
+        if (decisionElegida != null && !decisionElegida.isBlank()) {
+            String byDecision = siguientes.get(decisionElegida);
+            if (byDecision != null) {
+                return byDecision;
+            }
+        }
+
+        if (respuesta != null && !respuesta.isEmpty()) {
+            for (Object value : respuesta.values()) {
+                if (value == null) {
+                    continue;
+                }
+
+                String normalized = String.valueOf(value);
+                String nextByExactValue = siguientes.get(normalized);
+                if (nextByExactValue != null) {
+                    return nextByExactValue;
+                }
+            }
+        }
+
+        throw new RuntimeException(
+                "El paso de tipo ACTIVIDAD tiene múltiples rutas y no se pudo resolver el siguiente paso. " +
+                        "Define la ruta 'default' o asegúrate de que una respuesta coincida con una clave en 'siguientes'."
+        );
     }
 
     private String extractJsonObject(String aiRaw) {
