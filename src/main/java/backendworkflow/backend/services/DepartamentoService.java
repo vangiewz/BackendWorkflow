@@ -39,10 +39,27 @@ public class DepartamentoService {
     }
 
     /**
-     * Retorna todos los departamentos.
+     * Retorna todos los departamentos (activos e inactivos) — para administración.
      */
     public List<Departamento> findAll() {
         return departamentoRepository.findAll();
+    }
+
+    /**
+     * Retorna solo los departamentos activos — para workflows y prompts de IA.
+     */
+    public List<Departamento> findAllActive() {
+        return departamentoRepository.findByIsActiveTrue();
+    }
+
+    /**
+     * Activa o desactiva un departamento (soft delete).
+     */
+    public Departamento toggleActive(String id) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Departamento no encontrado"));
+        departamento.setActive(!departamento.isActive());
+        return departamentoRepository.save(departamento);
     }
 
     /**
@@ -65,7 +82,8 @@ public class DepartamentoService {
     }
 
     /**
-     * Elimina un departamento verificando que no existan usuarios asignados a él.
+     * Elimina permanentemente un departamento (hard delete).
+     * Verifica que no existan usuarios asignados.
      */
     public void deleteDepartamento(String id) {
         if (!departamentoRepository.existsById(id)) {

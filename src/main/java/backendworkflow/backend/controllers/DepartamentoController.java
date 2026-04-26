@@ -61,6 +61,22 @@ public class DepartamentoController {
     }
 
     /**
+     * Permite a un ADMIN activar o desactivar un departamento (soft delete).
+     */
+    @PatchMapping("/{id}/toggle-active")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> toggleActive(@PathVariable String id) {
+        try {
+            Departamento updated = departamentoService.toggleActive(id);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    /**
      * Permite a un ADMIN actualizar el nombre del departamento.
      */
     @PatchMapping("/{id}")

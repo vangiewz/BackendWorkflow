@@ -137,15 +137,13 @@ public class AuthService {
             throw new RuntimeException("Credenciales inválidas");
         }
 
-        // Si Envía un FCM token, lo guardamos si no estaba ya
-        if (request.fcmToken() != null && !request.fcmToken().isBlank()) {
-            if (usuario.getFcmTokens() == null) {
-                usuario.setFcmTokens(new ArrayList<>());
-            }
-            if (!usuario.getFcmTokens().contains(request.fcmToken())) {
-                usuario.getFcmTokens().add(request.fcmToken());
-                usuarioService.save(usuario);
-            }
+        // Reemplazar el FCM token en cada login (siempre 1 token activo por usuario)
+        if (request.fcmToken() != null && !request.fcmToken().isBlank()
+                && !request.fcmToken().startsWith("dummy")) {
+            ArrayList<String> tokens = new ArrayList<>();
+            tokens.add(request.fcmToken());
+            usuario.setFcmTokens(tokens);
+            usuarioService.save(usuario);
         }
 
         String tipoUsuario = "CLIENTE".equals(usuario.getRol()) ? "CLIENTE" : "USUARIO";

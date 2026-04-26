@@ -26,6 +26,10 @@ public class Tramite {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaFinalizacion;
 
+    private String paymentId;
+    private String invoiceUrl;
+    private String clienteEmail;
+
     public Tramite() {
         this.respuestas = new HashMap<>();
         this.historialTiempos = new ArrayList<>();
@@ -119,5 +123,29 @@ public class Tramite {
 
     public void setFechaFinalizacion(LocalDateTime fechaFinalizacion) {
         this.fechaFinalizacion = fechaFinalizacion;
+    }
+
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getInvoiceUrl() {
+        return invoiceUrl;
+    }
+
+    public void setInvoiceUrl(String invoiceUrl) {
+        this.invoiceUrl = invoiceUrl;
+    }
+
+    public String getClienteEmail() {
+        return clienteEmail;
+    }
+
+    public void setClienteEmail(String clienteEmail) {
+        this.clienteEmail = clienteEmail;
     }
 }
