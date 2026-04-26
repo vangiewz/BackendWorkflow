@@ -25,6 +25,7 @@ public class TramiteService {
     private final NotificationStepService notificationStepService;
     private final CoinGateService coinGateService;
     private final AzureBlobStorageService azureBlobStorageService;
+    private final BitacoraService bitacoraService;
     private final ObjectMapper objectMapper;
 
     public TramiteService(
@@ -35,7 +36,8 @@ public class TramiteService {
             N8nNotificationService n8nNotificationService,
             NotificationStepService notificationStepService,
             CoinGateService coinGateService,
-            AzureBlobStorageService azureBlobStorageService
+            AzureBlobStorageService azureBlobStorageService,
+            BitacoraService bitacoraService
     ) {
         this.tramiteRepository = tramiteRepository;
         this.plantillaRepository = plantillaRepository;
@@ -45,6 +47,7 @@ public class TramiteService {
         this.notificationStepService = notificationStepService;
         this.coinGateService = coinGateService;
         this.azureBlobStorageService = azureBlobStorageService;
+        this.bitacoraService = bitacoraService;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -125,7 +128,11 @@ public class TramiteService {
         );
         tramite.getHistorialTiempos().add(registro);
 
-        return tramiteRepository.save(tramite);
+        Tramite saved = tramiteRepository.save(tramite);
+        
+        bitacoraService.registrarAccion("TRAMITE_INICIADO", cliente != null ? cliente.getEmail() : "CLIENTE_NO_ENCONTRADO", cliente != null ? cliente.getNombre() : "DESCONOCIDO", "CLIENTE", "Trámite iniciado: " + plantilla.getNombre());
+
+        return saved;
     }
 
     public void confirmarPago(String orderId) {
@@ -264,6 +271,8 @@ public class TramiteService {
             usuarioRepository.findById(tramite.getClienteId()).ifPresent(usuario -> {
                 n8nNotificationService.notificarTramiteFinalizado(tramite, usuario);
             });
+            
+            bitacoraService.registrarAccion("TRAMITE_FINALIZADO", "SISTEMA", funcionarioNombre, "FUNCIONARIO/SISTEMA", "Trámite finalizado exitosamente: " + tramite.getNombrePlantilla());
         } else {
             tramite.setPasoActualId(siguientePasoId);
             tramite.setEstadoGlobal("EN_PROGRESO");
@@ -289,7 +298,12 @@ public class TramiteService {
             }
         }
 
-        return tramiteRepository.save(tramite);
+        Tramite saved = tramiteRepository.save(tramite);
+        
+        String logDetalle = "Paso respondido: " + pasoActual.nombrePaso() + " en trámite " + tramite.getNombrePlantilla();
+        bitacoraService.registrarAccion("PASO_RESPONDIDO", funcionarioId != null ? funcionarioId : tramite.getClienteEmail(), funcionarioNombre, departamentoId != null ? "FUNCIONARIO" : "CLIENTE", logDetalle);
+
+        return saved;
     }
 
     public AsistenteFormularioResponse asistirFormulario(

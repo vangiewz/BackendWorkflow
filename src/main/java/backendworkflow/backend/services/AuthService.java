@@ -26,15 +26,18 @@ public class AuthService {
     private final UsuarioService usuarioService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+    private final BitacoraService bitacoraService;
 
     public AuthService(
             UsuarioService usuarioService,
             JwtService jwtService,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            BitacoraService bitacoraService
     ) {
         this.usuarioService = usuarioService;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.bitacoraService = bitacoraService;
     }
 
     /**
@@ -67,6 +70,8 @@ public class AuthService {
                 usuario.getRol(),
                 "USUARIO"
         );
+
+        bitacoraService.registrarAccion("LOGIN_WEB_EMPLEADO", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "Inicio de sesión web exitoso");
 
         return new AuthResponse(
                 token,
@@ -105,6 +110,8 @@ public class AuthService {
                 usuario.getRol(),
                 "CLIENTE"
         );
+
+        bitacoraService.registrarAccion("LOGIN_WEB_CLIENTE", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "Inicio de sesión web exitoso");
 
         return new AuthResponse(
                 token,
@@ -154,6 +161,8 @@ public class AuthService {
                 tipoUsuario
         );
 
+        bitacoraService.registrarAccion("LOGIN_MOVIL", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "Inicio de sesión móvil exitoso");
+
         return new AuthResponse(
                 token,
                 usuario.getId(),
@@ -195,6 +204,8 @@ public class AuthService {
                 "CLIENTE",
                 "CLIENTE"
         );
+
+        bitacoraService.registrarAccion("REGISTRO_CLIENTE", savedUsuario.getEmail(), savedUsuario.getNombre(), "CLIENTE", "Nuevo cliente registrado en el sistema");
 
         return new AuthResponse(
                 token,
