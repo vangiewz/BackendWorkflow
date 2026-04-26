@@ -23,15 +23,18 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final DepartamentoService departamentoService;
+    private final BitacoraService bitacoraService;
 
     public UsuarioService(
             UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
-            DepartamentoService departamentoService
+            DepartamentoService departamentoService,
+            BitacoraService bitacoraService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.departamentoService = departamentoService;
+        this.bitacoraService = bitacoraService;
     }
 
     public Optional<Usuario> findByEmail(String email) {
@@ -73,6 +76,8 @@ public class UsuarioService {
         usuario.setActive(true);
 
         Usuario saved = usuarioRepository.save(usuario);
+
+        bitacoraService.registrarAccion("CREACION_USUARIO", saved.getEmail(), saved.getNombre(), saved.getRol(), "Se ha creado un nuevo usuario interno en el sistema");
 
         return new UsuarioResponse(
                 saved.getId(),
@@ -132,6 +137,8 @@ public class UsuarioService {
 
         usuario.setPassword(passwordEncoder.encode(request.newPassword()));
         usuarioRepository.save(usuario);
+
+        bitacoraService.registrarAccion("CAMBIO_PASSWORD", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "El usuario ha cambiado su propia contraseña");
     }
 
     /**
@@ -139,7 +146,6 @@ public class UsuarioService {
      */
     public List<UsuarioResponse> findAllUsuarios() {
         return usuarioRepository.findAll().stream()
-                .filter(u -> !"CLIENTE".equals(u.getRol()))
                 .map(u -> new UsuarioResponse(
                         u.getId(),
                         u.getEmail(),
@@ -161,6 +167,8 @@ public class UsuarioService {
         usuario.setRol(request.rol());
         Usuario saved = usuarioRepository.save(usuario);
         
+        bitacoraService.registrarAccion("CAMBIO_ROL", saved.getEmail(), saved.getNombre(), saved.getRol(), "Rol actualizado por un administrador");
+
         return new UsuarioResponse(
                 saved.getId(),
                 saved.getEmail(),
@@ -201,6 +209,8 @@ public class UsuarioService {
                 
         usuario.setPassword(passwordEncoder.encode(request.newPassword()));
         usuarioRepository.save(usuario);
+
+        bitacoraService.registrarAccion("CAMBIO_PASSWORD_ADMIN", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "Un administrador cambió la contraseña de este usuario");
     }
 
     /**
@@ -212,6 +222,8 @@ public class UsuarioService {
                 
         usuario.setActive(false);
         usuarioRepository.save(usuario);
+
+        bitacoraService.registrarAccion("DESACTIVACION_USUARIO", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "El usuario fue desactivado (borrado lógico)");
     }
 
     /**
@@ -223,5 +235,7 @@ public class UsuarioService {
                 
         usuario.setActive(true);
         usuarioRepository.save(usuario);
+
+        bitacoraService.registrarAccion("REACTIVACION_USUARIO", usuario.getEmail(), usuario.getNombre(), usuario.getRol(), "El usuario fue reactivado en el sistema");
     }
 }
