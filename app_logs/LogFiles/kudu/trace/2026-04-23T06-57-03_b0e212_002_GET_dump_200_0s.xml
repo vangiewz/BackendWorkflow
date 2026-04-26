@@ -1,0 +1,4 @@
+<step title="Incoming Request" date="2026-04-23T06:57:03.491" instance="b0e212" url="/dump" method="GET" type="request" pid="770,1,21" Host="api-backend-5axms.scm.azurewebsites.net" User-Agent="AZURECLI/2.85.0 (MSI)" Accept-Encoding="identity" Authorization="Bea..." x-ms-client-request-id="9b060e71-3ee1-11f1-8b12-987ab17a0eff" X-ARR-LOG-ID="9b060e71-3ee1-11f1-8b12-987ab17a0eff" CLIENT-IP="158.172.227.237:13230" X-SITE-DEPLOYMENT-ID="api-backend-5axms" WAS-DEFAULT-HOSTNAME="api-backend-5axms.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/dump" X-Client-IP="158.172.227.237" X-Client-Port="13230" >
+  <step title="Cleanup Xml Logs" date="2026-04-23T06:57:03.495" /><!-- duration: 7ms -->
+  <step title="Outgoing response" date="2026-04-23T06:57:03.722" type="response" statusCode="200" statusText="OK" /><!-- duration: 4ms -->
+</step><!-- duration: 242ms -->

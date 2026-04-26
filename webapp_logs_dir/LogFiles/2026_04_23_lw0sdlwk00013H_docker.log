@@ -1,0 +1,775 @@
+2026-04-23T05:51:17.1980957Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-23T05:51:20.6531783Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-23T05:51:20.6738313Z Container start method called.
+2026-04-23T05:51:20.6739658Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-23T05:51:20.6741882Z Establishing network.
+2026-04-23T05:51:20.6744429Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-23T05:51:37.6403537Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2026-04-23T05:51:37.6407721Z Container is terminating. Grace period: 5 seconds.
+2026-04-23T05:51:37.6411009Z Container spec TerminationMessagePolicy  path 
+2026-04-23T05:51:37.6413216Z Container is terminated. Total time elapsed: 0 ms.
+2026-04-23T05:51:37.6514823Z Site container: api-backend-5axms terminated during site startup.
+2026-04-23T05:51:37.6516720Z State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:51:37.6526352Z State: Stopping, Action: CancellingStartup, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:51:37.7522751Z Failed to start site. Revert by stopping site.
+2026-04-23T05:51:37.7604960Z State: Stopping, Action: StoppingSite, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:51:37.7609150Z State: Stopping, Action: StoppingSiteContainers, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:51:37.7609562Z Site: api-backend-5axms stopped.
+2026-04-23T05:52:27.3372923Z State: Starting, Action: EstablishingSiteNetworks, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site stopped at 04/23/2026 05:51:39 (UTC), DetailsLevel: ERR
+2026-04-23T05:52:38.4546476Z State: Starting, Action: StartingSiteContainers, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site stopped at 04/23/2026 05:51:39 (UTC), DetailsLevel: ERR
+2026-04-23T05:52:38.4548065Z Container start method called.
+2026-04-23T05:52:38.4548657Z State: Starting, Action: PullingImage, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-23T05:52:38.4550537Z Establishing network.
+2026-04-23T05:52:38.4551961Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-23T05:53:44.4515661Z Image acruagrm5axms.azurecr.io/backend:latest is pulled from registry acruagrm5axms.azurecr.io
+2026-04-23T05:53:44.4795885Z Container is starting.
+2026-04-23T05:53:44.4798197Z State: Starting, Action: MountingVolumes, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-23T05:53:44.4800660Z Establishing user namespace if not established already.
+2026-04-23T05:53:44.5255721Z Establishing network if not established already.
+2026-04-23T05:53:44.5267316Z Mounting volumes.
+2026-04-23T05:53:44.5543793Z Nested mountpoint volatile/logs
+2026-04-23T05:53:44.7079677Z Nested mountpoint 
+2026-04-23T05:53:45.0843109Z State: Starting, Action: CreatingContainer, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-23T05:53:45.0845804Z Creating container.
+2026-04-23T05:53:45.1022930Z Creating pipes for streaming container io.
+2026-04-23T05:53:45.1025475Z Creating stdout named pipe at /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stdout_4126ddfd3cf04b0791488c6d01614336.
+2026-04-23T05:53:45.1124931Z Successfully created stdout named pipe at: /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stdout_4126ddfd3cf04b0791488c6d01614336.
+2026-04-23T05:53:45.1126746Z Opening named pipe /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stdout_4126ddfd3cf04b0791488c6d01614336 for reading in non-blocking mode.
+2026-04-23T05:53:45.1128410Z Successfully opened named pipe: /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stdout_4126ddfd3cf04b0791488c6d01614336.
+2026-04-23T05:53:45.1129576Z Successfully removed non-blocking flag from /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stdout_4126ddfd3cf04b0791488c6d01614336.
+2026-04-23T05:53:45.1363868Z Creating stderr named pipe at /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stderr_6d1c817bb8a74bfc89e4d4eccef6803b.
+2026-04-23T05:53:45.1366307Z Successfully created stderr named pipe at: /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stderr_6d1c817bb8a74bfc89e4d4eccef6803b.
+2026-04-23T05:53:45.1367481Z Opening named pipe /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stderr_6d1c817bb8a74bfc89e4d4eccef6803b for reading in non-blocking mode.
+2026-04-23T05:53:45.1368943Z Successfully opened named pipe: /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stderr_6d1c817bb8a74bfc89e4d4eccef6803b.
+2026-04-23T05:53:45.1370064Z Successfully removed non-blocking flag from /podr/container/pipe/e136e8f7afe5_api-backend-5axms/stderr_6d1c817bb8a74bfc89e4d4eccef6803b.
+2026-04-23T05:53:45.1456449Z Overriding PORT environment variable with port exposed by container image.
+2026-04-23T05:53:45.7121393Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-23T05:53:45.7218357Z Setting value of PORT variable to 8080
+2026-04-23T05:53:45.7421295Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T05:53:48.3861046Z Starting container: e136e8f7afe5_api-backend-5axms.
+2026-04-23T05:53:49.1855267Z Starting watchers and probes.
+2026-04-23T05:53:49.2018536Z Starting metrics collection.
+2026-04-23T05:53:49.2025821Z Container is running.
+2026-04-23T05:53:49.2034045Z State: Starting, Action: CreatingContainer, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-23T05:53:49.2806550Z Container start method finished after 70825 ms.
+2026-04-23T05:53:49.2811324Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-23T05:53:49.2812059Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-23T05:54:41.6202211Z Container has finished running with exit code: 1.
+2026-04-23T05:54:41.6207371Z Container is terminating. Grace period: 5 seconds.
+2026-04-23T05:54:41.6222241Z Stop and delete container. Retry count = 0
+2026-04-23T05:54:41.6224061Z Stopping container: e136e8f7afe5_api-backend-5axms.
+2026-04-23T05:54:41.7183736Z Deleting container: e136e8f7afe5_api-backend-5axms. Retry count = 0
+2026-04-23T05:54:41.9578539Z Container spec TerminationMessagePolicy  path 
+2026-04-23T05:54:41.9580257Z Container is terminated. Total time elapsed: 337 ms.
+2026-04-23T05:54:41.9581394Z Site container: api-backend-5axms terminated during site startup.
+2026-04-23T05:54:41.9679726Z State: Stopping, Action: CancellingStartup, LastError: ImagePullUnauthorizedFailure, LastErrorTimestamp: 04/23/2026 05:51:37, LastErrorDetails: Failed to pull image: acruagrm5axms.azurecr.io/backend:latest. Image pull failed with forbidden or unauthorized. Check registry credentials., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:54:42.0094370Z Site startup probe failed after 52.6909241 seconds.
+2026-04-23T05:54:42.2427280Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 05:54:42, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:54:42.2723670Z Failed to start site. Revert by stopping site.
+2026-04-23T05:54:42.2726579Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 05:54:42, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:54:42.2740342Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 05:54:42, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T05:54:42.2740572Z Site: api-backend-5axms stopped.
+2026-04-23T05:57:13.583Z INFO  - Pulling image: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T05:57:20.341Z INFO  - latest Pulling from backend
+2026-04-23T05:57:22.149Z INFO  - f63eb04151bc Pulling fs layer
+2026-04-23T05:57:22.150Z INFO  - a1b8f7509ae1 Pulling fs layer
+2026-04-23T05:57:22.150Z INFO  - 95f3568ba76e Pulling fs layer
+2026-04-23T05:57:22.155Z INFO  - b5b777945cb5 Pulling fs layer
+2026-04-23T05:57:22.155Z INFO  - e007562ed65e Pulling fs layer
+2026-04-23T05:57:22.155Z INFO  - e38685dabee9 Pulling fs layer
+2026-04-23T05:57:22.155Z INFO  - f4f8fe971d4e Pulling fs layer
+2026-04-23T05:57:25.519Z INFO  - b5b777945cb5 Downloading 158B / 158B
+2026-04-23T05:57:25.527Z INFO  - e38685dabee9 Downloading 93B / 93B
+2026-04-23T05:57:25.528Z INFO  - e007562ed65e Downloading 2KB / 2KB
+2026-04-23T05:57:25.529Z INFO  - b5b777945cb5 Verifying Checksum
+2026-04-23T05:57:25.529Z INFO  - b5b777945cb5 Download complete
+2026-04-23T05:57:25.529Z INFO  - e38685dabee9 Verifying Checksum
+2026-04-23T05:57:25.529Z INFO  - e38685dabee9 Download complete
+2026-04-23T05:57:25.546Z INFO  - e007562ed65e Verifying Checksum
+2026-04-23T05:57:25.546Z INFO  - e007562ed65e Download complete
+2026-04-23T05:57:25.944Z INFO  - a1b8f7509ae1 Downloading 639KB / 15MB
+2026-04-23T05:57:26.100Z INFO  - 95f3568ba76e Downloading 943KB / 45MB
+2026-04-23T05:57:26.191Z INFO  - f63eb04151bc Downloading 1MB / 28MB
+2026-04-23T05:57:26.389Z INFO  - a1b8f7509ae1 Downloading 1MB / 15MB
+2026-04-23T05:57:26.501Z INFO  - f4f8fe971d4e Downloading 671KB / 31MB
+2026-04-23T05:57:26.631Z INFO  - a1b8f7509ae1 Downloading 1MB / 15MB
+2026-04-23T05:57:26.945Z INFO  - f4f8fe971d4e Downloading 1MB / 31MB
+2026-04-23T05:57:27.031Z INFO  - f63eb04151bc Downloading 1MB / 28MB
+2026-04-23T05:57:27.300Z INFO  - 95f3568ba76e Downloading 1MB / 45MB
+2026-04-23T05:57:27.422Z INFO  - f63eb04151bc Downloading 2MB / 28MB
+2026-04-23T05:57:27.662Z INFO  - a1b8f7509ae1 Downloading 2MB / 15MB
+2026-04-23T05:57:27.832Z INFO  - f4f8fe971d4e Downloading 1MB / 31MB
+2026-04-23T05:57:27.961Z INFO  - f63eb04151bc Downloading 2MB / 28MB
+2026-04-23T05:57:27.990Z INFO  - a1b8f7509ae1 Downloading 3MB / 15MB
+2026-04-23T05:57:27.990Z INFO  - 95f3568ba76e Downloading 2MB / 45MB
+2026-04-23T05:57:28.191Z INFO  - a1b8f7509ae1 Downloading 3MB / 15MB
+2026-04-23T05:57:28.191Z INFO  - f63eb04151bc Downloading 3MB / 28MB
+2026-04-23T05:57:28.259Z INFO  - 95f3568ba76e Downloading 3MB / 45MB
+2026-04-23T05:57:28.379Z INFO  - f63eb04151bc Downloading 4MB / 28MB
+2026-04-23T05:57:28.495Z INFO  - a1b8f7509ae1 Downloading 4MB / 15MB
+2026-04-23T05:57:28.699Z INFO  - 95f3568ba76e Downloading 4MB / 45MB
+2026-04-23T05:57:28.719Z INFO  - f63eb04151bc Downloading 5MB / 28MB
+2026-04-23T05:57:28.815Z INFO  - f4f8fe971d4e Downloading 3MB / 31MB
+2026-04-23T05:57:29.481Z INFO  - f63eb04151bc Downloading 5MB / 28MB
+2026-04-23T05:57:29.481Z INFO  - 95f3568ba76e Downloading 5MB / 45MB
+2026-04-23T05:57:29.556Z INFO  - f4f8fe971d4e Downloading 3MB / 31MB
+2026-04-23T05:57:29.949Z INFO  - a1b8f7509ae1 Downloading 6MB / 15MB
+2026-04-23T05:57:29.985Z INFO  - a1b8f7509ae1 Downloading 6MB / 15MB
+2026-04-23T05:57:30.121Z INFO  - f4f8fe971d4e Downloading 4MB / 31MB
+2026-04-23T05:57:30.563Z INFO  - 95f3568ba76e Downloading 6MB / 45MB
+2026-04-23T05:57:30.573Z INFO  - f63eb04151bc Downloading 8MB / 28MB
+2026-04-23T05:57:30.728Z INFO  - a1b8f7509ae1 Downloading 7MB / 15MB
+2026-04-23T05:57:30.768Z INFO  - f4f8fe971d4e Downloading 5MB / 31MB
+2026-04-23T05:57:30.834Z INFO  - f63eb04151bc Downloading 8MB / 28MB
+2026-04-23T05:57:31.611Z INFO  - a1b8f7509ae1 Downloading 8MB / 15MB
+2026-04-23T05:57:31.632Z INFO  - f4f8fe971d4e Downloading 5MB / 31MB
+2026-04-23T05:57:31.945Z INFO  - a1b8f7509ae1 Downloading 8MB / 15MB
+2026-04-23T05:57:32.099Z INFO  - 95f3568ba76e Downloading 8MB / 45MB
+2026-04-23T05:57:32.184Z INFO  - f4f8fe971d4e Downloading 6MB / 31MB
+2026-04-23T05:57:32.362Z INFO  - 95f3568ba76e Downloading 9MB / 45MB
+2026-04-23T05:57:32.570Z INFO  - f63eb04151bc Downloading 9MB / 28MB
+2026-04-23T05:57:33.215Z INFO  - 95f3568ba76e Downloading 9MB / 45MB
+2026-04-23T05:57:33.444Z INFO  - f63eb04151bc Downloading 10MB / 28MB
+2026-04-23T05:57:33.909Z INFO  - 95f3568ba76e Downloading 10MB / 45MB
+2026-04-23T05:57:34.001Z INFO  - f4f8fe971d4e Downloading 7MB / 31MB
+2026-04-23T05:57:34.780Z INFO  - 95f3568ba76e Downloading 11MB / 45MB
+2026-04-23T05:57:34.781Z INFO  - f4f8fe971d4e Downloading 8MB / 31MB
+2026-04-23T05:57:34.781Z INFO  - f63eb04151bc Downloading 10MB / 28MB
+2026-04-23T05:57:35.001Z INFO  - a1b8f7509ae1 Downloading 11MB / 15MB
+2026-04-23T05:57:35.165Z INFO  - a1b8f7509ae1 Downloading 11MB / 15MB
+2026-04-23T05:57:35.505Z INFO  - 95f3568ba76e Downloading 12MB / 45MB
+2026-04-23T05:57:35.716Z INFO  - f63eb04151bc Downloading 11MB / 28MB
+2026-04-23T05:57:36.103Z INFO  - a1b8f7509ae1 Downloading 12MB / 15MB
+2026-04-23T05:57:36.161Z INFO  - f4f8fe971d4e Downloading 10MB / 31MB
+2026-04-23T05:57:36.215Z INFO  - f4f8fe971d4e Downloading 10MB / 31MB
+2026-04-23T05:57:36.268Z INFO  - 95f3568ba76e Downloading 13MB / 45MB
+2026-04-23T05:57:36.268Z INFO  - f63eb04151bc Downloading 12MB / 28MB
+2026-04-23T05:57:36.362Z INFO  - a1b8f7509ae1 Downloading 12MB / 15MB
+2026-04-23T05:57:36.452Z INFO  - 95f3568ba76e Downloading 14MB / 45MB
+2026-04-23T05:57:36.659Z INFO  - a1b8f7509ae1 Downloading 13MB / 15MB
+2026-04-23T05:57:36.735Z INFO  - f63eb04151bc Downloading 13MB / 28MB
+2026-04-23T05:57:36.859Z INFO  - 95f3568ba76e Downloading 15MB / 45MB
+2026-04-23T05:57:36.866Z INFO  - f4f8fe971d4e Downloading 12MB / 31MB
+2026-04-23T05:57:37.023Z INFO  - f4f8fe971d4e Downloading 13MB / 31MB
+2026-04-23T05:57:37.088Z INFO  - f63eb04151bc Downloading 14MB / 28MB
+2026-04-23T05:57:37.233Z INFO  - a1b8f7509ae1 Verifying Checksum
+2026-04-23T05:57:37.233Z INFO  - a1b8f7509ae1 Download complete
+2026-04-23T05:57:37.348Z INFO  - f4f8fe971d4e Downloading 14MB / 31MB
+2026-04-23T05:57:37.491Z INFO  - f63eb04151bc Downloading 14MB / 28MB
+2026-04-23T05:57:37.491Z INFO  - 95f3568ba76e Downloading 17MB / 45MB
+2026-04-23T05:57:38.284Z INFO  - f4f8fe971d4e Downloading 15MB / 31MB
+2026-04-23T05:57:38.295Z INFO  - f63eb04151bc Downloading 15MB / 28MB
+2026-04-23T05:57:38.611Z INFO  - 95f3568ba76e Downloading 18MB / 45MB
+2026-04-23T05:57:38.949Z INFO  - f4f8fe971d4e Downloading 17MB / 31MB
+2026-04-23T05:57:39.429Z INFO  - f63eb04151bc Downloading 16MB / 28MB
+2026-04-23T05:57:39.606Z INFO  - f4f8fe971d4e Downloading 17MB / 31MB
+2026-04-23T05:57:39.717Z INFO  - 95f3568ba76e Downloading 19MB / 45MB
+2026-04-23T05:57:39.785Z INFO  - f4f8fe971d4e Downloading 18MB / 31MB
+2026-04-23T05:57:40.741Z INFO  - f63eb04151bc Downloading 18MB / 28MB
+2026-04-23T05:57:41.406Z INFO  - 95f3568ba76e Downloading 20MB / 45MB
+2026-04-23T05:57:41.406Z INFO  - f4f8fe971d4e Downloading 19MB / 31MB
+2026-04-23T05:57:41.798Z INFO  - 95f3568ba76e Downloading 21MB / 45MB
+2026-04-23T05:57:42.092Z INFO  - f4f8fe971d4e Downloading 19MB / 31MB
+2026-04-23T05:57:42.092Z INFO  - f63eb04151bc Downloading 19MB / 28MB
+2026-04-23T05:57:42.414Z INFO  - 95f3568ba76e Downloading 22MB / 45MB
+2026-04-23T05:57:42.414Z INFO  - f4f8fe971d4e Downloading 20MB / 31MB
+2026-04-23T05:57:42.771Z INFO  - f63eb04151bc Downloading 20MB / 28MB
+2026-04-23T05:57:43.329Z INFO  - f63eb04151bc Downloading 21MB / 28MB
+2026-04-23T05:57:43.965Z INFO  - f4f8fe971d4e Downloading 22MB / 31MB
+2026-04-23T05:57:44.014Z INFO  - 95f3568ba76e Downloading 23MB / 45MB
+2026-04-23T05:57:44.164Z INFO  - f63eb04151bc Downloading 21MB / 28MB
+2026-04-23T05:57:44.452Z INFO  - f4f8fe971d4e Downloading 23MB / 31MB
+2026-04-23T05:57:44.557Z INFO  - f63eb04151bc Downloading 22MB / 28MB
+2026-04-23T05:57:44.871Z INFO  - f63eb04151bc Downloading 22MB / 28MB
+2026-04-23T05:57:45.528Z INFO  - f63eb04151bc Downloading 23MB / 28MB
+2026-04-23T05:57:45.596Z INFO  - 95f3568ba76e Downloading 24MB / 45MB
+2026-04-23T05:57:45.596Z INFO  - f4f8fe971d4e Downloading 24MB / 31MB
+2026-04-23T05:57:45.949Z INFO  - f63eb04151bc Downloading 24MB / 28MB
+2026-04-23T05:57:46.044Z INFO  - f4f8fe971d4e Downloading 25MB / 31MB
+2026-04-23T05:57:46.044Z INFO  - 95f3568ba76e Downloading 25MB / 45MB
+2026-04-23T05:57:46.121Z INFO  - f63eb04151bc Downloading 24MB / 28MB
+2026-04-23T05:57:46.429Z INFO  - f4f8fe971d4e Downloading 26MB / 31MB
+2026-04-23T05:57:46.534Z INFO  - f63eb04151bc Downloading 25MB / 28MB
+2026-04-23T05:57:46.560Z INFO  - 95f3568ba76e Downloading 26MB / 45MB
+2026-04-23T05:57:47.096Z INFO  - f63eb04151bc Downloading 27MB / 28MB
+2026-04-23T05:57:47.105Z INFO  - 95f3568ba76e Downloading 27MB / 45MB
+2026-04-23T05:57:47.114Z INFO  - f4f8fe971d4e Downloading 27MB / 31MB
+2026-04-23T05:57:47.592Z INFO  - f63eb04151bc Downloading 27MB / 28MB
+2026-04-23T05:57:47.594Z INFO  - f4f8fe971d4e Downloading 27MB / 31MB
+2026-04-23T05:57:47.594Z INFO  - 95f3568ba76e Downloading 28MB / 45MB
+2026-04-23T05:57:47.701Z INFO  - f63eb04151bc Verifying Checksum
+2026-04-23T05:57:47.701Z INFO  - f63eb04151bc Download complete
+2026-04-23T05:57:47.880Z INFO  - 95f3568ba76e Downloading 29MB / 45MB
+2026-04-23T05:57:48.544Z INFO  - 95f3568ba76e Downloading 29MB / 45MB
+2026-04-23T05:57:49.008Z INFO  - f4f8fe971d4e Downloading 29MB / 31MB
+2026-04-23T05:57:50.443Z INFO  - 95f3568ba76e Downloading 30MB / 45MB
+2026-04-23T05:57:50.993Z INFO  - f4f8fe971d4e Verifying Checksum
+2026-04-23T05:57:50.993Z INFO  - f4f8fe971d4e Download complete
+2026-04-23T05:57:53.353Z INFO  - 95f3568ba76e Downloading 31MB / 45MB
+2026-04-23T05:57:55.147Z INFO  - 95f3568ba76e Downloading 32MB / 45MB
+2026-04-23T05:57:56.306Z INFO  - f63eb04151bc Extracting 640KB / 28MB
+2026-04-23T05:57:56.306Z INFO  - 95f3568ba76e Downloading 33MB / 45MB
+2026-04-23T05:57:56.811Z INFO  - 95f3568ba76e Downloading 34MB / 45MB
+2026-04-23T05:57:57.616Z INFO  - 95f3568ba76e Downloading 35MB / 45MB
+2026-04-23T05:57:57.964Z INFO  - 95f3568ba76e Downloading 36MB / 45MB
+2026-04-23T05:57:58.617Z INFO  - 95f3568ba76e Downloading 37MB / 45MB
+2026-04-23T05:57:58.676Z INFO  - f63eb04151bc Extracting 1MB / 28MB
+2026-04-23T05:57:59.170Z INFO  - 95f3568ba76e Downloading 38MB / 45MB
+2026-04-23T05:58:00.490Z INFO  - 95f3568ba76e Downloading 39MB / 45MB
+2026-04-23T05:58:01.814Z INFO  - f63eb04151bc Extracting 1MB / 28MB
+2026-04-23T05:58:02.236Z INFO  - f63eb04151bc Extracting 2MB / 28MB
+2026-04-23T05:58:02.593Z INFO  - 95f3568ba76e Downloading 40MB / 45MB
+2026-04-23T05:58:03.466Z INFO  - 95f3568ba76e Downloading 41MB / 45MB
+2026-04-23T05:58:04.269Z INFO  - 95f3568ba76e Downloading 42MB / 45MB
+2026-04-23T05:58:04.657Z INFO  - f63eb04151bc Extracting 4MB / 28MB
+2026-04-23T05:58:04.708Z INFO  - f63eb04151bc Extracting 5MB / 28MB
+2026-04-23T05:58:05.007Z INFO  - 95f3568ba76e Downloading 43MB / 45MB
+2026-04-23T05:58:05.286Z INFO  - 95f3568ba76e Downloading 44MB / 45MB
+2026-04-23T05:58:06.450Z INFO  - f63eb04151bc Extracting 5MB / 28MB
+2026-04-23T05:58:06.768Z INFO  - f63eb04151bc Extracting 6MB / 28MB
+2026-04-23T05:58:07.003Z INFO  - 95f3568ba76e Verifying Checksum
+2026-04-23T05:58:07.005Z INFO  - 95f3568ba76e Download complete
+2026-04-23T05:58:07.638Z INFO  - f63eb04151bc Extracting 6MB / 28MB
+2026-04-23T05:58:07.858Z INFO  - f63eb04151bc Extracting 7MB / 28MB
+2026-04-23T05:58:08.384Z INFO  - f63eb04151bc Extracting 8MB / 28MB
+2026-04-23T05:58:08.708Z INFO  - f63eb04151bc Extracting 8MB / 28MB
+2026-04-23T05:58:10.953Z INFO  - f63eb04151bc Extracting 9MB / 28MB
+2026-04-23T05:58:11.288Z INFO  - f63eb04151bc Extracting 10MB / 28MB
+2026-04-23T05:58:12.208Z INFO  - f63eb04151bc Extracting 10MB / 28MB
+2026-04-23T05:58:12.615Z INFO  - f63eb04151bc Extracting 12MB / 28MB
+2026-04-23T05:58:13.125Z INFO  - f63eb04151bc Extracting 15MB / 28MB
+2026-04-23T05:58:13.947Z INFO  - f63eb04151bc Extracting 20MB / 28MB
+2026-04-23T05:58:14.672Z INFO  - f63eb04151bc Extracting 24MB / 28MB
+2026-04-23T05:58:15.902Z INFO  - f63eb04151bc Extracting 26MB / 28MB
+2026-04-23T05:58:16.087Z INFO  - f63eb04151bc Extracting 26MB / 28MB
+2026-04-23T05:58:16.842Z INFO  - f63eb04151bc Extracting 27MB / 28MB
+2026-04-23T05:58:17.112Z INFO  - f63eb04151bc Extracting 28MB / 28MB
+2026-04-23T05:58:17.198Z INFO  - f63eb04151bc Pull complete
+2026-04-23T05:58:18.432Z INFO  - a1b8f7509ae1 Extracting 320KB / 15MB
+2026-04-23T05:58:20.863Z INFO  - a1b8f7509ae1 Extracting 960KB / 15MB
+2026-04-23T05:58:21.307Z INFO  - a1b8f7509ae1 Extracting 3MB / 15MB
+2026-04-23T05:58:21.845Z INFO  - a1b8f7509ae1 Extracting 6MB / 15MB
+2026-04-23T05:58:22.313Z INFO  - a1b8f7509ae1 Extracting 7MB / 15MB
+2026-04-23T05:58:24.057Z INFO  - a1b8f7509ae1 Extracting 11MB / 15MB
+2026-04-23T05:58:24.057Z INFO  - a1b8f7509ae1 Extracting 12MB / 15MB
+2026-04-23T05:58:24.057Z INFO  - a1b8f7509ae1 Extracting 13MB / 15MB
+2026-04-23T05:58:24.854Z INFO  - a1b8f7509ae1 Extracting 14MB / 15MB
+2026-04-23T05:58:26.288Z INFO  - a1b8f7509ae1 Extracting 14MB / 15MB
+2026-04-23T05:58:26.466Z INFO  - a1b8f7509ae1 Extracting 15MB / 15MB
+2026-04-23T05:58:26.724Z INFO  - a1b8f7509ae1 Pull complete
+2026-04-23T05:58:28.189Z INFO  - 95f3568ba76e Extracting 1MB / 45MB
+2026-04-23T05:58:29.407Z INFO  - 95f3568ba76e Extracting 4MB / 45MB
+2026-04-23T05:58:29.852Z INFO  - 95f3568ba76e Extracting 10MB / 45MB
+2026-04-23T05:58:31.826Z INFO  - 95f3568ba76e Extracting 12MB / 45MB
+2026-04-23T05:58:32.409Z INFO  - 95f3568ba76e Extracting 13MB / 45MB
+2026-04-23T05:58:34.431Z INFO  - 95f3568ba76e Extracting 16MB / 45MB
+2026-04-23T05:58:34.582Z INFO  - 95f3568ba76e Extracting 18MB / 45MB
+2026-04-23T05:58:35.183Z INFO  - 95f3568ba76e Extracting 20MB / 45MB
+2026-04-23T05:58:36.350Z INFO  - 95f3568ba76e Extracting 22MB / 45MB
+2026-04-23T05:58:37.447Z INFO  - 95f3568ba76e Extracting 24MB / 45MB
+2026-04-23T05:58:37.734Z INFO  - 95f3568ba76e Extracting 25MB / 45MB
+2026-04-23T05:58:38.107Z INFO  - 95f3568ba76e Extracting 28MB / 45MB
+2026-04-23T05:58:38.431Z INFO  - 95f3568ba76e Extracting 29MB / 45MB
+2026-04-23T05:58:38.772Z INFO  - 95f3568ba76e Extracting 30MB / 45MB
+2026-04-23T05:58:39.463Z INFO  - 95f3568ba76e Extracting 30MB / 45MB
+2026-04-23T05:58:40.671Z INFO  - 95f3568ba76e Extracting 32MB / 45MB
+2026-04-23T05:58:41.009Z INFO  - 95f3568ba76e Extracting 33MB / 45MB
+2026-04-23T05:58:42.535Z INFO  - 95f3568ba76e Extracting 36MB / 45MB
+2026-04-23T05:58:42.869Z INFO  - 95f3568ba76e Extracting 37MB / 45MB
+2026-04-23T05:58:43.558Z INFO  - 95f3568ba76e Extracting 39MB / 45MB
+2026-04-23T05:58:43.852Z INFO  - 95f3568ba76e Extracting 42MB / 45MB
+2026-04-23T05:58:44.676Z INFO  - 95f3568ba76e Extracting 43MB / 45MB
+2026-04-23T05:58:45.294Z INFO  - 95f3568ba76e Extracting 45MB / 45MB
+2026-04-23T05:58:45.674Z INFO  - 95f3568ba76e Pull complete
+2026-04-23T05:58:45.684Z INFO  - b5b777945cb5 Extracting 158B / 158B
+2026-04-23T05:58:45.957Z INFO  - b5b777945cb5 Extracting 158B / 158B
+2026-04-23T05:58:46.124Z INFO  - b5b777945cb5 Pull complete
+2026-04-23T05:58:46.232Z INFO  - e007562ed65e Extracting 2KB / 2KB
+2026-04-23T05:58:46.331Z INFO  - e007562ed65e Extracting 2KB / 2KB
+2026-04-23T05:58:46.527Z INFO  - e007562ed65e Pull complete
+2026-04-23T05:58:46.589Z INFO  - e38685dabee9 Extracting 93B / 93B
+2026-04-23T05:58:46.704Z INFO  - e38685dabee9 Extracting 93B / 93B
+2026-04-23T05:58:47.071Z INFO  - e38685dabee9 Pull complete
+2026-04-23T05:58:47.663Z INFO  - f4f8fe971d4e Extracting 2MB / 31MB
+2026-04-23T05:58:47.774Z INFO  - f4f8fe971d4e Extracting 3MB / 31MB
+2026-04-23T05:58:47.902Z INFO  - f4f8fe971d4e Extracting 3MB / 31MB
+2026-04-23T05:58:48.009Z INFO  - f4f8fe971d4e Extracting 4MB / 31MB
+2026-04-23T05:58:48.254Z INFO  - f4f8fe971d4e Extracting 6MB / 31MB
+2026-04-23T05:58:48.565Z INFO  - f4f8fe971d4e Extracting 7MB / 31MB
+2026-04-23T05:58:48.766Z INFO  - f4f8fe971d4e Extracting 7MB / 31MB
+2026-04-23T05:58:49.238Z INFO  - f4f8fe971d4e Extracting 8MB / 31MB
+2026-04-23T05:58:49.469Z INFO  - f4f8fe971d4e Extracting 8MB / 31MB
+2026-04-23T05:58:49.731Z INFO  - f4f8fe971d4e Extracting 10MB / 31MB
+2026-04-23T05:58:49.927Z INFO  - f4f8fe971d4e Extracting 11MB / 31MB
+2026-04-23T05:58:50.092Z INFO  - f4f8fe971d4e Extracting 12MB / 31MB
+2026-04-23T05:58:50.246Z INFO  - f4f8fe971d4e Extracting 13MB / 31MB
+2026-04-23T05:58:50.710Z INFO  - f4f8fe971d4e Extracting 15MB / 31MB
+2026-04-23T05:58:50.860Z INFO  - f4f8fe971d4e Extracting 16MB / 31MB
+2026-04-23T05:58:50.978Z INFO  - f4f8fe971d4e Extracting 17MB / 31MB
+2026-04-23T05:58:51.351Z INFO  - f4f8fe971d4e Extracting 18MB / 31MB
+2026-04-23T05:58:51.476Z INFO  - f4f8fe971d4e Extracting 19MB / 31MB
+2026-04-23T05:58:51.889Z INFO  - f4f8fe971d4e Extracting 20MB / 31MB
+2026-04-23T05:58:52.289Z INFO  - f4f8fe971d4e Extracting 22MB / 31MB
+2026-04-23T05:58:52.443Z INFO  - f4f8fe971d4e Extracting 23MB / 31MB
+2026-04-23T05:58:52.598Z INFO  - f4f8fe971d4e Extracting 24MB / 31MB
+2026-04-23T05:58:52.722Z INFO  - f4f8fe971d4e Extracting 24MB / 31MB
+2026-04-23T05:58:53.168Z INFO  - f4f8fe971d4e Extracting 26MB / 31MB
+2026-04-23T05:58:53.377Z INFO  - f4f8fe971d4e Extracting 27MB / 31MB
+2026-04-23T05:58:53.499Z INFO  - f4f8fe971d4e Extracting 27MB / 31MB
+2026-04-23T05:58:53.752Z INFO  - f4f8fe971d4e Extracting 28MB / 31MB
+2026-04-23T05:58:54.225Z INFO  - f4f8fe971d4e Extracting 30MB / 31MB
+2026-04-23T05:58:54.670Z INFO  - f4f8fe971d4e Extracting 30MB / 31MB
+2026-04-23T05:58:54.865Z INFO  - f4f8fe971d4e Extracting 31MB / 31MB
+2026-04-23T05:58:55.138Z INFO  - f4f8fe971d4e Pull complete
+2026-04-23T05:58:55.258Z INFO  -  Digest: sha256:f43ad48203efcd7c28df820361655a6f35937637252818627454c977a34a98ce
+2026-04-23T05:58:55.258Z INFO  -  Status: Downloaded newer image for acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T05:58:55.472Z INFO  - Pull Image successful, Time taken: 101 Seconds
+2026-04-23T05:59:00.947Z INFO  - Starting container for site
+2026-04-23T05:59:00.947Z INFO  - docker run -d --expose=8080 --name api-backend-5axms_0_a41de2ed -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 acruagrm5axms.azurecr.io/backend:latest 
+2026-04-23T05:59:00.947Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2026-04-23T05:59:11.952Z INFO  - Initiating warmup request to container api-backend-5axms_0_a41de2ed for site api-backend-5axms
+2026-04-23T05:59:34.369Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_a41de2ed. Elapsed time = 22.4369354 sec
+2026-04-23T05:59:52.978Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_a41de2ed. Elapsed time = 41.046729 sec
+2026-04-23T06:00:13.272Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_a41de2ed. Elapsed time = 61.3400315 sec
+2026-04-23T06:00:16.234Z ERROR - Container api-backend-5axms_0_a41de2ed for site api-backend-5axms has exited, failing site start
+2026-04-23T06:00:17.028Z ERROR - Container api-backend-5axms_0_a41de2ed didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:00:17.347Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+2026-04-23T06:00:35.1703442Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-23T06:00:39.4575642Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-23T06:00:39.4587262Z Container start method called.
+2026-04-23T06:00:39.4775858Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-23T06:00:39.4779073Z Establishing network.
+2026-04-23T06:00:39.4793435Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-23T06:00:41.3772671Z Container is starting.
+2026-04-23T06:00:41.3774810Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-23T06:00:41.3776583Z Establishing user namespace if not established already.
+2026-04-23T06:00:41.3778380Z Establishing network if not established already.
+2026-04-23T06:00:41.3779974Z Mounting volumes.
+2026-04-23T06:00:41.4351010Z Nested mountpoint volatile/logs
+2026-04-23T06:00:41.4616526Z Nested mountpoint 
+2026-04-23T06:00:41.7867132Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-23T06:00:41.7869165Z Creating container.
+2026-04-23T06:00:41.8043555Z Creating pipes for streaming container io.
+2026-04-23T06:00:41.8045303Z Creating stdout named pipe at /podr/container/pipe/8f0c38675315_api-backend-5axms/stdout_9f4fed8f5de941e38c704e612cd586e8.
+2026-04-23T06:00:41.8327169Z Successfully created stdout named pipe at: /podr/container/pipe/8f0c38675315_api-backend-5axms/stdout_9f4fed8f5de941e38c704e612cd586e8.
+2026-04-23T06:00:41.8337453Z Opening named pipe /podr/container/pipe/8f0c38675315_api-backend-5axms/stdout_9f4fed8f5de941e38c704e612cd586e8 for reading in non-blocking mode.
+2026-04-23T06:00:41.8350770Z Successfully opened named pipe: /podr/container/pipe/8f0c38675315_api-backend-5axms/stdout_9f4fed8f5de941e38c704e612cd586e8.
+2026-04-23T06:00:41.8352084Z Successfully removed non-blocking flag from /podr/container/pipe/8f0c38675315_api-backend-5axms/stdout_9f4fed8f5de941e38c704e612cd586e8.
+2026-04-23T06:00:41.8603910Z Creating stderr named pipe at /podr/container/pipe/8f0c38675315_api-backend-5axms/stderr_977c4c221ffe4d02ab2d0b57da1583c8.
+2026-04-23T06:00:41.8606572Z Successfully created stderr named pipe at: /podr/container/pipe/8f0c38675315_api-backend-5axms/stderr_977c4c221ffe4d02ab2d0b57da1583c8.
+2026-04-23T06:00:41.8618452Z Opening named pipe /podr/container/pipe/8f0c38675315_api-backend-5axms/stderr_977c4c221ffe4d02ab2d0b57da1583c8 for reading in non-blocking mode.
+2026-04-23T06:00:41.8620167Z Successfully opened named pipe: /podr/container/pipe/8f0c38675315_api-backend-5axms/stderr_977c4c221ffe4d02ab2d0b57da1583c8.
+2026-04-23T06:00:41.8621343Z Successfully removed non-blocking flag from /podr/container/pipe/8f0c38675315_api-backend-5axms/stderr_977c4c221ffe4d02ab2d0b57da1583c8.
+2026-04-23T06:00:41.8623335Z Overriding PORT environment variable with port exposed by container image.
+2026-04-23T06:00:42.0681999Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-23T06:00:42.0752175Z Setting value of PORT variable to 8080
+2026-04-23T06:00:42.0755212Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:00:44.0997995Z Starting container: 8f0c38675315_api-backend-5axms.
+2026-04-23T06:00:44.3324559Z Starting watchers and probes.
+2026-04-23T06:00:44.3625986Z Starting metrics collection.
+2026-04-23T06:00:44.3630516Z Container is running.
+2026-04-23T06:00:44.3631616Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-23T06:00:44.4947757Z Container start method finished after 5034 ms.
+2026-04-23T06:00:44.6177734Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-23T06:00:44.6178431Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-23T06:01:43.7705469Z Container has finished running with exit code: 1.
+2026-04-23T06:01:43.7789204Z Container is terminating. Grace period: 5 seconds.
+2026-04-23T06:01:43.8161597Z Stop and delete container. Retry count = 0
+2026-04-23T06:01:43.8165789Z Stopping container: 8f0c38675315_api-backend-5axms.
+2026-04-23T06:01:43.9883824Z Deleting container: 8f0c38675315_api-backend-5axms. Retry count = 0
+2026-04-23T06:01:44.8291892Z Container spec TerminationMessagePolicy  path 
+2026-04-23T06:01:44.8544156Z Container is terminated. Total time elapsed: 1067 ms.
+2026-04-23T06:01:44.8551562Z Site container: api-backend-5axms terminated during site startup.
+2026-04-23T06:01:44.9107337Z State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T06:01:44.9829277Z Site startup probe failed after 60.3377385 seconds.
+2026-04-23T06:01:45.4193794Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 06:01:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T06:01:45.4452870Z Failed to start site. Revert by stopping site.
+2026-04-23T06:01:45.4455204Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 06:01:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T06:01:45.4462742Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/23/2026 06:01:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-23T06:01:45.4463117Z Site: api-backend-5axms stopped.
+2026-04-23T06:02:00.571Z INFO  - Pulling image: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:02:07.767Z INFO  - latest Pulling from backend
+2026-04-23T06:02:08.760Z INFO  -  Digest: sha256:f43ad48203efcd7c28df820361655a6f35937637252818627454c977a34a98ce
+2026-04-23T06:02:08.764Z INFO  -  Status: Image is up to date for acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:02:08.832Z INFO  - Pull Image successful, Time taken: 8 Seconds
+2026-04-23T06:02:09.048Z INFO  - Starting container for site
+2026-04-23T06:02:09.050Z INFO  - docker run -d --expose=8080 --name api-backend-5axms_0_2d6dbdd1 -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 acruagrm5axms.azurecr.io/backend:latest 
+2026-04-23T06:02:09.051Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2026-04-23T06:02:26.761Z INFO  - Initiating warmup request to container api-backend-5axms_0_2d6dbdd1 for site api-backend-5axms
+2026-04-23T06:03:05.237Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_2d6dbdd1. Elapsed time = 38.475215 sec
+2026-04-23T06:03:31.885Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_2d6dbdd1. Elapsed time = 65.1234647 sec
+2026-04-23T06:03:53.034Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_2d6dbdd1. Elapsed time = 86.2720076 sec
+2026-04-23T06:04:04.861Z ERROR - Container api-backend-5axms_0_2d6dbdd1 for site api-backend-5axms has exited, failing site start
+2026-04-23T06:04:06.503Z ERROR - Container api-backend-5axms_0_2d6dbdd1 didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:04:06.664Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+2026-04-23T06:36:43.755Z INFO  - Pulling image: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:36:44.499Z INFO  - latest Pulling from backend
+2026-04-23T06:36:44.589Z INFO  -  Digest: sha256:61b742dffc489e88fd849c8c6c260c22acbcb7ad7a6df0aafcce6b5802714b16
+2026-04-23T06:36:44.596Z INFO  -  Status: Image is up to date for acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:36:44.608Z INFO  - Pull Image successful, Time taken: 0 Seconds
+2026-04-23T06:36:45.072Z INFO  - Starting container for site
+2026-04-23T06:36:45.072Z INFO  - docker run -d --expose=8080 --name api-backend-5axms_0_1b85d573 -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 acruagrm5axms.azurecr.io/backend:latest 
+2026-04-23T06:36:45.072Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2026-04-23T06:36:48.289Z INFO  - Initiating warmup request to container api-backend-5axms_0_1b85d573 for site api-backend-5axms
+2026-04-23T06:37:05.627Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_1b85d573. Elapsed time = 17.3440406 sec
+2026-04-23T06:37:23.320Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_1b85d573. Elapsed time = 35.0385825 sec
+2026-04-23T06:37:41.911Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_1b85d573. Elapsed time = 53.6287364 sec
+2026-04-23T06:38:01.423Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_1b85d573. Elapsed time = 73.1407506 sec
+2026-04-23T06:38:09.643Z ERROR - Container api-backend-5axms_0_1b85d573 for site api-backend-5axms has exited, failing site start
+2026-04-23T06:38:09.726Z ERROR - Container api-backend-5axms_0_1b85d573 didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:38:09.855Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+2026-04-23T06:40:45.950Z INFO  - Pulling image: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:40:46.284Z INFO  - latest Pulling from backend
+2026-04-23T06:40:46.342Z INFO  -  Digest: sha256:61b742dffc489e88fd849c8c6c260c22acbcb7ad7a6df0aafcce6b5802714b16
+2026-04-23T06:40:46.346Z INFO  -  Status: Image is up to date for acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:40:46.360Z INFO  - Pull Image successful, Time taken: 0 Seconds
+2026-04-23T06:40:46.424Z INFO  - Starting container for site
+2026-04-23T06:40:46.425Z INFO  - docker run -d --expose=8080 --name api-backend-5axms_0_af7dd5db -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 acruagrm5axms.azurecr.io/backend:latest 
+2026-04-23T06:40:46.429Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2026-04-23T06:40:50.267Z INFO  - Initiating warmup request to container api-backend-5axms_0_af7dd5db for site api-backend-5axms
+2026-04-23T06:41:07.174Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_af7dd5db. Elapsed time = 16.9073817 sec
+2026-04-23T06:41:23.701Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_af7dd5db. Elapsed time = 33.4343017 sec
+2026-04-23T06:41:35.263Z ERROR - Container api-backend-5axms_0_af7dd5db for site api-backend-5axms has exited, failing site start
+2026-04-23T06:41:35.318Z ERROR - Container api-backend-5axms_0_af7dd5db didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:41:35.446Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+2026-04-23T06:47:32.175Z INFO  - Pulling image: acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:47:32.593Z INFO  - latest Pulling from backend
+2026-04-23T06:47:32.739Z INFO  - f63eb04151bc Already exists
+2026-04-23T06:47:32.785Z INFO  - a1b8f7509ae1 Already exists
+2026-04-23T06:47:32.813Z INFO  - 95f3568ba76e Already exists
+2026-04-23T06:47:32.830Z INFO  - b5b777945cb5 Already exists
+2026-04-23T06:47:32.862Z INFO  - e007562ed65e Already exists
+2026-04-23T06:47:32.872Z INFO  - e38685dabee9 Already exists
+2026-04-23T06:47:32.892Z INFO  - 3c4cb8b57ba8 Pulling fs layer
+2026-04-23T06:47:33.228Z INFO  - 3c4cb8b57ba8 Downloading 5MB / 31MB
+2026-04-23T06:47:33.339Z INFO  - 3c4cb8b57ba8 Downloading 8MB / 31MB
+2026-04-23T06:47:33.446Z INFO  - 3c4cb8b57ba8 Downloading 10MB / 31MB
+2026-04-23T06:47:34.628Z INFO  - 3c4cb8b57ba8 Downloading 14MB / 31MB
+2026-04-23T06:47:34.629Z INFO  - 3c4cb8b57ba8 Downloading 17MB / 31MB
+2026-04-23T06:47:34.646Z INFO  - 3c4cb8b57ba8 Downloading 21MB / 31MB
+2026-04-23T06:47:34.654Z INFO  - 3c4cb8b57ba8 Downloading 24MB / 31MB
+2026-04-23T06:47:34.655Z INFO  - 3c4cb8b57ba8 Verifying Checksum
+2026-04-23T06:47:34.656Z INFO  - 3c4cb8b57ba8 Download complete
+2026-04-23T06:47:34.938Z INFO  - 3c4cb8b57ba8 Extracting 4MB / 31MB
+2026-04-23T06:47:35.324Z INFO  - 3c4cb8b57ba8 Extracting 7MB / 31MB
+2026-04-23T06:47:35.352Z INFO  - 3c4cb8b57ba8 Extracting 10MB / 31MB
+2026-04-23T06:47:35.824Z INFO  - 3c4cb8b57ba8 Extracting 13MB / 31MB
+2026-04-23T06:47:36.431Z INFO  - 3c4cb8b57ba8 Extracting 23MB / 31MB
+2026-04-23T06:47:36.784Z INFO  - 3c4cb8b57ba8 Extracting 25MB / 31MB
+2026-04-23T06:47:36.832Z INFO  - 3c4cb8b57ba8 Extracting 28MB / 31MB
+2026-04-23T06:47:37.159Z INFO  - 3c4cb8b57ba8 Extracting 31MB / 31MB
+2026-04-23T06:47:37.240Z INFO  - 3c4cb8b57ba8 Pull complete
+2026-04-23T06:47:37.280Z INFO  -  Digest: sha256:93bdd6df8ae1d572c8b6e1dc00dd7d37f650a3ecc1f79db4fa9767a542afb50d
+2026-04-23T06:47:37.283Z INFO  -  Status: Downloaded newer image for acruagrm5axms.azurecr.io/backend:latest
+2026-04-23T06:47:37.303Z INFO  - Pull Image successful, Time taken: 5 Seconds
+2026-04-23T06:47:37.399Z INFO  - Starting container for site
+2026-04-23T06:47:37.406Z INFO  - docker run -d --expose=8080 --name api-backend-5axms_0_7ccb9af9 -e WEBSITE_USE_DIAGNOSTIC_SERVER=false -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e PORT=8080 -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 acruagrm5axms.azurecr.io/backend:latest 
+2026-04-23T06:47:37.408Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2026-04-23T06:47:42.181Z INFO  - Initiating warmup request to container api-backend-5axms_0_7ccb9af9 for site api-backend-5axms
+2026-04-23T06:48:09.956Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_7ccb9af9. Elapsed time = 27.7683407 sec
+2026-04-23T06:48:26.130Z INFO  - Waiting for response to warmup request for container api-backend-5axms_0_7ccb9af9. Elapsed time = 43.9489732 sec
+2026-04-23T06:48:27.704Z ERROR - Container api-backend-5axms_0_7ccb9af9 for site api-backend-5axms is not running, failing site start
+2026-04-23T06:48:27.773Z ERROR - Container api-backend-5axms_0_7ccb9af9 didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:48:27.847Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+2026-04-23T06:52:44.084Z INFO  - Pulling image: mcr.microsoft.com/appsvc/middleware:stage3
+2026-04-23T06:52:44.998Z INFO  - stage3 Pulling from appsvc/middleware
+2026-04-23T06:52:45.046Z INFO  - 64bac4cf3f77 Pulling fs layer
+2026-04-23T06:52:45.053Z INFO  - 4c1817b5ea06 Pulling fs layer
+2026-04-23T06:52:45.054Z INFO  - da6d7821ad84 Pulling fs layer
+2026-04-23T06:52:45.056Z INFO  - 6c2aa7811605 Pulling fs layer
+2026-04-23T06:52:45.062Z INFO  - 1e3835722bd4 Pulling fs layer
+2026-04-23T06:52:45.064Z INFO  - 11308147fd70 Pulling fs layer
+2026-04-23T06:52:45.064Z INFO  - 24c200971f4d Pulling fs layer
+2026-04-23T06:52:45.064Z INFO  - 786352c64df7 Pulling fs layer
+2026-04-23T06:52:45.064Z INFO  - ac824b4db38c Pulling fs layer
+2026-04-23T06:52:45.102Z INFO  - bd62c44056ea Pulling fs layer
+2026-04-23T06:52:45.110Z INFO  - c29cf919d91d Pulling fs layer
+2026-04-23T06:52:45.111Z INFO  - ed4bb6b9b6b8 Pulling fs layer
+2026-04-23T06:52:45.112Z INFO  - 5edffa087127 Pulling fs layer
+2026-04-23T06:52:45.113Z INFO  - a08fc4d446db Pulling fs layer
+2026-04-23T06:52:45.113Z INFO  - 6fe0c48400b1 Pulling fs layer
+2026-04-23T06:52:47.792Z INFO  - 6c2aa7811605 Downloading 726B / 726B
+2026-04-23T06:52:47.792Z INFO  - 4c1817b5ea06 Downloading 4KB / 4KB
+2026-04-23T06:52:47.792Z INFO  - 6c2aa7811605 2026-04-23T06:54:12.700Z INFO  - Initiating warmup request to container api-backend-5axms_0_bcc34876 for site api-backend-5axms
+2026-04-23T06:54:24.074Z ERROR - Container api-backend-5axms_0_bcc34876 for site api-backend-5axms has exited, failing site start
+2026-04-23T06:54:24.075Z INFO  - Initiating warmup request to container api-backend-5axms_0_bcc34876_middleware for site api-backend-5axms
+2026-04-23T06:54:25.267Z INFO  - Container api-backend-5axms_0_bcc34876_middleware for site api-backend-5axms initialized successfully and is ready to serve requests.
+2026-04-23T06:54:25.332Z ERROR - Container api-backend-5axms_0_bcc34876 didn't respond to HTTP pings on port: 8080. Failing site start. See container logs for debugging.
+2026-04-23T06:54:25.795Z INFO  - Stopping site api-backend-5axms because it failed during startup.
+ INFO  - 5edffa087127 Verifying Checksum
+2026-04-23T06:52:48.079Z INFO  - 5edffa087127 Download complete
+2026-04-23T06:52:48.079Z INFO  - 1e3835722bd4 Downloading 120B / 120B
+2026-04-23T06:52:48.080Z INFO  - ac824b4db38c Downloading 93B / 93B
+2026-04-23T06:52:48.080Z INFO  - 6fe0c48400b1 Downloading 95KB / 1MB
+2026-04-23T06:52:48.080Z INFO  - 1e3835722bd4 Verifying Checksum
+2026-04-23T06:52:48.080Z INFO  - 1e3835722bd4 Download complete
+2026-04-23T06:52:48.080Z INFO  - ac824b4db38c Verifying Checksum
+2026-04-23T06:52:48.080Z INFO  - ac824b4db38c Download complete
+2026-04-23T06:52:48.197Z INFO  - bd62c44056ea Downloading 95KB / 3MB
+2026-04-23T06:52:48.207Z INFO  - 64bac4cf3f77 Downloading 574KB / 27MB
+2026-04-23T06:52:48.446Z INFO  - 6fe0c48400b1 Downloading 190KB / 1MB
+2026-04-23T06:52:48.643Z INFO  - bd62c44056ea Downloading 478KB / 3MB
+2026-04-23T06:52:48.732Z INFO  - 786352c64df7 Downloading 446KB / 10MB
+2026-04-23T06:52:48.789Z INFO  - da6d7821ad84 Downloading 702KB / 16MB
+2026-04-23T06:52:49.167Z INFO  - bd62c44056ea Downloading 622KB / 3MB
+2026-04-23T06:52:49.167Z INFO  - c29cf919d91d Downloading 766KB / 4MB
+2026-04-23T06:52:49.167Z INFO  - 786352c64df7 Downloading 894KB / 10MB
+2026-04-23T06:52:49.264Z INFO  - 6fe0c48400b1 Downloading 670KB / 1MB
+2026-04-23T06:52:49.272Z INFO  - c29cf919d91d Downloading 1MB / 4MB
+2026-04-23T06:52:49.465Z INFO  - 11308147fd70 Downloading 1MB / 30MB
+2026-04-23T06:52:49.806Z INFO  - 64bac4cf3f77 Downloading 1MB / 27MB
+2026-04-23T06:52:49.912Z INFO  - 786352c64df7 Downloading 1MB / 10MB
+2026-04-23T06:52:49.912Z INFO  - 786352c64df7 Downloading 1MB / 10MB
+2026-04-23T06:52:49.912Z INFO  - 6fe0c48400b1 Verifying Checksum
+2026-04-23T06:52:49.912Z INFO  - 6fe0c48400b1 Download complete
+2026-04-23T06:52:49.970Z INFO  - c29cf919d91d Downloading 1MB / 4MB
+2026-04-23T06:52:50.176Z INFO  - da6d7821ad84 Downloading 1MB / 16MB
+2026-04-23T06:52:50.176Z INFO  - c29cf919d91d Downloading 2MB / 4MB
+2026-04-23T06:52:50.281Z INFO  - 786352c64df7 Downloading 1MB / 10MB
+2026-04-23T06:52:50.358Z INFO  - 64bac4cf3f77 Downloading 1MB / 27MB
+2026-04-23T06:52:50.429Z INFO  - 786352c64df7 Downloading 1MB / 10MB
+2026-04-23T06:52:50.459Z INFO  - c29cf919d91d Downloading 2MB / 4MB
+2026-04-23T06:52:50.509Z INFO  - 786352c64df7 Downloading 2MB / 10MB
+2026-04-23T06:52:50.565Z INFO  - bd62c44056ea Downloading 1MB / 3MB
+2026-04-23T06:52:50.577Z INFO  - da6d7821ad84 Downloading 2MB / 16MB
+2026-04-23T06:52:50.615Z INFO  - 11308147fd70 Downloading 1MB / 30MB
+2026-04-23T06:52:50.681Z INFO  - 786352c64df7 Downloading 2MB / 10MB
+2026-04-23T06:52:51.054Z INFO  - c29cf919d91d Downloading 3MB / 4MB
+2026-04-23T06:52:51.077Z INFO  - da6d7821ad84 Downloading 3MB / 16MB
+2026-04-23T06:52:51.340Z INFO  - bd62c44056ea Downloading 1MB / 3MB
+2026-04-23T06:52:51.340Z INFO  - c29cf919d91d Downloading 3MB / 4MB
+2026-04-23T06:52:51.340Z INFO  - 786352c64df7 Downloading 2MB / 10MB
+2026-04-23T06:52:51.340Z INFO  - bd62c44056ea Downloading 1MB / 3MB
+2026-04-23T06:52:51.341Z INFO  - 11308147fd70 Downloading 2MB / 30MB
+2026-04-23T06:52:51.541Z INFO  - c29cf919d91d Downloading 4MB / 4MB
+2026-04-23T06:52:51.561Z INFO  - c29cf919d91d Verifying Checksum
+2026-04-23T06:52:51.590Z INFO  - c29cf919d91d Download complete
+2026-04-23T06:52:51.620Z INFO  - 786352c64df7 Downloading 3MB / 10MB
+2026-04-23T06:52:51.726Z INFO  - 11308147fd70 Downloading 3MB / 30MB
+2026-04-23T06:52:51.778Z INFO  - da6d7821ad84 Downloading 4MB / 16MB
+2026-04-23T06:52:51.805Z INFO  - bd62c44056ea Downloading 2MB / 3MB
+2026-04-23T06:52:51.835Z INFO  - 11308147fd70 Downloading 3MB / 30MB
+2026-04-23T06:52:51.854Z INFO  - 786352c64df7 Downloading 4MB / 10MB
+2026-04-23T06:52:51.963Z INFO  - 64bac4cf3f77 Downloading 3MB / 27MB
+2026-04-23T06:52:51.979Z INFO  - bd62c44056ea Downloading 2MB / 3MB
+2026-04-23T06:52:51.979Z INFO  - da6d7821ad84 Downloading 4MB / 16MB
+2026-04-23T06:52:52.020Z INFO  - 11308147fd70 Downloading 4MB / 30MB
+2026-04-23T06:52:52.211Z INFO  - da6d7821ad84 Downloading 4MB / 16MB
+2026-04-23T06:52:52.248Z INFO  - 786352c64df7 Downloading 4MB / 10MB
+2026-04-23T06:52:52.309Z INFO  - 786352c64df7 Downloading 5MB / 10MB
+2026-04-23T06:52:52.355Z INFO  - bd62c44056ea Verifying Checksum
+2026-04-23T06:52:52.356Z INFO  - bd62c44056ea Download complete
+2026-04-23T06:52:52.461Z INFO  - 11308147fd70 Downloading 4MB / 30MB
+2026-04-23T06:52:52.473Z INFO  - 64bac4cf3f77 Downloading 4MB / 27MB
+2026-04-23T06:52:52.689Z INFO  - 786352c64df7 Downloading 5MB / 10MB
+2026-04-23T06:52:52.969Z INFO  - da6d7821ad84 Downloading 5MB / 16MB
+2026-04-23T06:52:53.282Z INFO  - 786352c64df7 Downloading 6MB / 10MB
+2026-04-23T06:52:53.282Z INFO  - da6d7821ad84 Downloading 6MB / 16MB
+2026-04-23T06:52:53.501Z INFO  - 11308147fd70 Downloading 5MB / 30MB
+2026-04-23T06:52:53.616Z INFO  - da6d7821ad84 Downloading 6MB / 16MB
+2026-04-23T06:52:53.801Z INFO  - 786352c64df7 Downloading 6MB / 10MB
+2026-04-23T06:52:53.820Z INFO  - 64bac4cf3f77 Downloading 6MB / 27MB
+2026-04-23T06:52:53.951Z INFO  - da6d7821ad84 Downloading 6MB / 16MB
+2026-04-23T06:52:54.145Z INFO  - da6d7821ad84 Downloading 7MB / 16MB
+2026-04-23T06:52:54.293Z INFO  - da6d7821ad84 Downloading 7MB / 16MB
+2026-04-23T06:52:54.598Z INFO  - 64bac4cf3f77 Downloading 7MB / 27MB
+2026-04-23T06:52:54.644Z INFO  - da6d7821ad84 Downloading 8MB / 16MB
+2026-04-23T06:52:54.673Z INFO  - 786352c64df7 Downloading 8MB / 10MB
+2026-04-23T06:52:54.822Z INFO  - da6d7821ad84 Downloading 8MB / 16MB
+2026-04-23T06:52:55.053Z INFO  - 786352c64df7 Downloading 8MB / 10MB
+2026-04-23T06:52:55.053Z INFO  - da6d7821ad84 Downloading 8MB / 16MB
+2026-04-23T06:52:55.061Z INFO  - 786352c64df7 Downloading 8MB / 10MB
+2026-04-23T06:52:55.187Z INFO  - 786352c64df7 Downloading 8MB / 10MB
+2026-04-23T06:52:55.397Z INFO  - 11308147fd70 Downloading 8MB / 30MB
+2026-04-23T06:52:55.415Z INFO  - 64bac4cf3f77 Downloading 7MB / 27MB
+2026-04-23T06:52:55.676Z INFO  - 786352c64df7 Downloading 9MB / 10MB
+2026-04-23T06:52:55.775Z INFO  - da6d7821ad84 Downloading 10MB / 16MB
+2026-04-23T06:52:55.798Z INFO  - 786352c64df7 Downloading 9MB / 10MB
+2026-04-23T06:52:56.124Z INFO  - da6d7821ad84 Downloading 11MB / 16MB
+2026-04-23T06:52:56.177Z INFO  - 64bac4cf3f77 Downloading 9MB / 27MB
+2026-04-23T06:52:56.177Z INFO  - 786352c64df7 Downloading 10MB / 10MB
+2026-04-23T06:52:56.177Z INFO  - 786352c64df7 Verifying Checksum
+2026-04-23T06:52:56.412Z INFO  - 786352c64df7 Download complete
+2026-04-23T06:52:56.429Z INFO  - 64bac4cf3f77 Downloading 10MB / 27MB
+2026-04-23T06:52:57.017Z INFO  - da6d7821ad84 Downloading 12MB / 16MB
+2026-04-23T06:52:57.131Z INFO  - 11308147fd70 Downloading 12MB / 30MB
+2026-04-23T06:52:57.150Z INFO  - da6d7821ad84 Downloading 13MB / 16MB
+2026-04-23T06:52:57.171Z INFO  - 64bac4cf3f77 Downloading 12MB / 27MB
+2026-04-23T06:52:57.471Z INFO  - 11308147fd70 Downloading 13MB / 30MB
+2026-04-23T06:52:57.599Z INFO  - da6d7821ad84 Downloading 13MB / 16MB
+2026-04-23T06:52:57.815Z INFO  - 64bac4cf3f77 Downloading 13MB / 27MB
+2026-04-23T06:52:57.911Z INFO  - 11308147fd70 Downloading 14MB / 30MB
+2026-04-23T06:52:57.939Z INFO  - da6d7821ad84 Downloading 15MB / 16MB
+2026-04-23T06:52:58.028Z INFO  - 64bac4cf3f77 Downloading 14MB / 27MB
+2026-04-23T06:52:58.073Z INFO  - da6d7821ad84 Downloading 15MB / 16MB
+2026-04-23T06:52:58.074Z INFO  - 11308147fd70 Downloading 15MB / 30MB
+2026-04-23T06:52:58.245Z INFO  - 64bac4cf3f77 Downloading 15MB / 27MB
+2026-04-23T06:52:58.269Z INFO  - da6d7821ad84 Downloading 16MB / 16MB
+2026-04-23T06:52:58.269Z INFO  - da6d7821ad84 Verifying Checksum
+2026-04-23T06:52:58.269Z INFO  - da6d7821ad84 Download complete
+2026-04-23T06:52:58.301Z INFO  - 64bac4cf3f77 Downloading 16MB / 27MB
+2026-04-23T06:52:58.427Z INFO  - 11308147fd70 Downloading 16MB / 30MB
+2026-04-23T06:52:58.457Z INFO  - 64bac4cf3f77 Downloading 16MB / 27MB
+2026-04-23T06:52:58.562Z INFO  - 11308147fd70 Downloading 17MB / 30MB
+2026-04-23T06:52:58.893Z INFO  - 11308147fd70 Downloading 18MB / 30MB
+2026-04-23T06:52:59.197Z INFO  - 11308147fd70 Downloading 20MB / 30MB
+2026-04-23T06:52:59.351Z INFO  - 64bac4cf3f77 Downloading 20MB / 27MB
+2026-04-23T06:52:59.802Z INFO  - 64bac4cf3f77 Downloading 22MB / 27MB
+2026-04-23T06:52:59.975Z INFO  - 64bac4cf3f77 Downloading 23MB / 27MB
+2026-04-23T06:53:00.159Z INFO  - 64bac4cf3f77 Downloading 23MB / 27MB
+2026-04-23T06:53:00.347Z INFO  - 64bac4cf3f77 Downloading 24MB / 27MB
+2026-04-23T06:53:00.445Z INFO  - 64bac4cf3f77 Downloading 24MB / 27MB
+2026-04-23T06:53:00.805Z INFO  - 11308147fd70 Downloading 26MB / 30MB
+2026-04-23T06:53:00.822Z INFO  - 64bac4cf3f77 Downloading 26MB / 27MB
+2026-04-23T06:53:01.076Z INFO  - 64bac4cf3f77 Verifying Checksum
+2026-04-23T06:53:01.076Z INFO  - 64bac4cf3f77 Download complete
+2026-04-23T06:53:01.329Z INFO  - 11308147fd70 Downloading 27MB / 30MB
+2026-04-23T06:53:02.141Z INFO  - 11308147fd70 Downloading 29MB / 30MB
+2026-04-23T06:53:02.285Z INFO  - 11308147fd70 Downloading 29MB / 30MB
+2026-04-23T06:53:02.450Z INFO  - 64bac4cf3f77 Extracting 576KB / 27MB
+2026-04-23T06:53:02.579Z INFO  - 11308147fd70 Verifying Checksum
+2026-04-23T06:53:02.580Z INFO  - 11308147fd70 Download complete
+2026-04-23T06:53:05.445Z INFO  - 64bac4cf3f77 Extracting 1MB / 27MB
+2026-04-23T06:53:05.979Z INFO  - 64bac4cf3f77 Extracting 2MB / 27MB
+2026-04-23T06:53:06.573Z INFO  - 64bac4cf3f77 Extracting 2MB / 27MB
+2026-04-23T06:53:07.486Z INFO  - 64bac4cf3f77 Extracting 3MB / 27MB
+2026-04-23T06:53:08.573Z INFO  - 64bac4cf3f77 Extracting 4MB / 27MB
+2026-04-23T06:53:09.562Z INFO  - 64bac4cf3f77 Extracting 5MB / 27MB
+2026-04-23T06:53:09.906Z INFO  - 64bac4cf3f77 Extracting 5MB / 27MB
+2026-04-23T06:53:10.748Z INFO  - 64bac4cf3f77 Extracting 6MB / 27MB
+2026-04-23T06:53:11.809Z INFO  - 64bac4cf3f77 Extracting 6MB / 27MB
+2026-04-23T06:53:12.290Z INFO  - 64bac4cf3f77 Extracting 7MB / 27MB
+2026-04-23T06:53:12.794Z INFO  - 64bac4cf3f77 Extracting 7MB / 27MB
+2026-04-23T06:53:13.611Z INFO  - 64bac4cf3f77 Extracting 8MB / 27MB
+2026-04-23T06:53:14.360Z INFO  - 64bac4cf3f77 Extracting 9MB / 27MB
+2026-04-23T06:53:17.147Z INFO  - 64bac4cf3f77 Extracting 10MB / 27MB
+2026-04-23T06:53:17.780Z INFO  - 64bac4cf3f77 Extracting 11MB / 27MB
+2026-04-23T06:53:18.424Z INFO  - 64bac4cf3f77 Extracting 12MB / 27MB
+2026-04-23T06:53:19.067Z INFO  - 64bac4cf3f77 Extracting 12MB / 27MB
+2026-04-23T06:53:19.748Z INFO  - 64bac4cf3f77 Extracting 13MB / 27MB
+2026-04-23T06:53:20.614Z INFO  - 64bac4cf3f77 Extracting 13MB / 27MB
+2026-04-23T06:53:21.273Z INFO  - 64bac4cf3f77 Extracting 14MB / 27MB
+2026-04-23T06:53:22.469Z INFO  - 64bac4cf3f77 Extracting 14MB / 27MB
+2026-04-23T06:53:23.664Z INFO  - 64bac4cf3f77 Extracting 15MB / 27MB
+2026-04-23T06:53:25.934Z INFO  - 64bac4cf3f77 Extracting 16MB / 27MB
+2026-04-23T06:53:28.059Z INFO  - 64bac4cf3f77 Extracting 16MB / 27MB
+2026-04-23T06:53:30.952Z INFO  - 64bac4cf3f77 Extracting 17MB / 27MB
+2026-04-23T06:53:32.343Z INFO  - 64bac4cf3f77 Extracting 17MB / 27MB
+2026-04-23T06:53:33.482Z INFO  - 64bac4cf3f77 Extracting 18MB / 27MB
+2026-04-23T06:53:35.007Z INFO  - 64bac4cf3f77 Extracting 18MB / 27MB
+2026-04-23T06:53:35.634Z INFO  - 64bac4cf3f77 Extracting 19MB / 27MB
+2026-04-23T06:53:35.949Z INFO  - 64bac4cf3f77 Extracting 19MB / 27MB
+2026-04-23T06:53:36.568Z INFO  - 64bac4cf3f77 Extracting 20MB / 27MB
+2026-04-23T06:53:38.033Z INFO  - 64bac4cf3f77 Extracting 21MB / 27MB
+2026-04-23T06:53:38.551Z INFO  - 64bac4cf3f77 Extracting 21MB / 27MB
+2026-04-23T06:53:39.179Z INFO  - 64bac4cf3f77 Extracting 22MB / 27MB
+2026-04-23T06:53:40.212Z INFO  - 64bac4cf3f77 Extracting 23MB / 27MB
+2026-04-23T06:53:40.770Z INFO  - 64bac4cf3f77 Extracting 23MB / 27MB
+2026-04-23T06:53:42.435Z INFO  - 64bac4cf3f77 Extracting 24MB / 27MB
+2026-04-23T06:53:42.891Z INFO  - 64bac4cf3f77 Extracting 27MB / 27MB
+2026-04-23T06:53:42.941Z INFO  - 64bac4cf3f77 Extracting 27MB / 27MB
+2026-04-23T06:53:42.960Z INFO  - 64bac4cf3f77 Pull complete
+2026-04-23T06:53:42.977Z INFO  - 4c1817b5ea06 Extracting 4KB / 4KB
+2026-04-23T06:53:43.524Z INFO  - 4c1817b5ea06 Extracting 4KB / 4KB
+2026-04-23T06:53:43.524Z INFO  - 4c1817b5ea06 Pull complete
+2026-04-23T06:53:44.529Z INFO  - da6d7821ad84 Extracting 1MB / 16MB
+2026-04-23T06:53:44.529Z INFO  - da6d7821ad84 Extracting 3MB / 16MB
+2026-04-23T06:53:44.595Z INFO  - da6d7821ad84 Extracting 5MB / 16MB
+2026-04-23T06:53:45.313Z INFO  - da6d7821ad84 Extracting 10MB / 16MB
+2026-04-23T06:53:45.320Z INFO  - da6d7821ad84 Extracting 11MB / 16MB
+2026-04-23T06:53:45.708Z INFO  - da6d7821ad84 Extracting 12MB / 16MB
+2026-04-23T06:53:45.946Z INFO  - da6d7821ad84 Extracting 14MB / 16MB
+2026-04-23T06:53:47.751Z INFO  - da6d7821ad84 Extracting 15MB / 16MB
+2026-04-23T06:53:48.079Z INFO  - da6d7821ad84 Extracting 16MB / 16MB
+2026-04-23T06:53:48.152Z INFO  - da6d7821ad84 Pull complete
+2026-04-23T06:53:48.203Z INFO  - 6c2aa7811605 Extracting 726B / 726B
+2026-04-23T06:53:48.282Z INFO  - 6c2aa7811605 Extracting 726B / 726B
+2026-04-23T06:53:48.367Z INFO  - 6c2aa7811605 Pull complete
+2026-04-23T06:53:48.388Z INFO  - 1e3835722bd4 Extracting 120B / 120B
+2026-04-23T06:53:48.600Z INFO  - 1e3835722bd4 Extracting 120B / 120B
+2026-04-23T06:53:48.697Z INFO  - 1e3835722bd4 Pull complete
+2026-04-23T06:53:48.982Z INFO  - 11308147fd70 Extracting 640KB / 30MB
+2026-04-23T06:53:49.384Z INFO  - 11308147fd70 Extracting 2MB / 30MB
+2026-04-23T06:53:49.983Z INFO  - 11308147fd70 Extracting 6MB / 30MB
+2026-04-23T06:53:50.369Z INFO  - 11308147fd70 Extracting 8MB / 30MB
+2026-04-23T06:53:50.690Z INFO  - 11308147fd70 Extracting 10MB / 30MB
+2026-04-23T06:53:50.851Z INFO  - 11308147fd70 Extracting 11MB / 30MB
+2026-04-23T06:53:51.009Z INFO  - 11308147fd70 Extracting 11MB / 30MB
+2026-04-23T06:53:51.151Z INFO  - 11308147fd70 Extracting 12MB / 30MB
+2026-04-23T06:53:51.330Z INFO  - 11308147fd70 Extracting 13MB / 30MB
+2026-04-23T06:53:51.608Z INFO  - 11308147fd70 Extracting 15MB / 30MB
+2026-04-23T06:53:51.736Z INFO  - 11308147fd70 Extracting 15MB / 30MB
+2026-04-23T06:53:52.098Z INFO  - 11308147fd70 Extracting 16MB / 30MB
+2026-04-23T06:53:52.225Z INFO  - 11308147fd70 Extracting 16MB / 30MB
+2026-04-23T06:53:52.408Z INFO  - 11308147fd70 Extracting 17MB / 30MB
+2026-04-23T06:53:52.685Z INFO  - 11308147fd70 Extracting 18MB / 30MB
+2026-04-23T06:53:52.813Z INFO  - 11308147fd70 Extracting 18MB / 30MB
+2026-04-23T06:53:53.045Z INFO  - 11308147fd70 Extracting 19MB / 30MB
+2026-04-23T06:53:53.209Z INFO  - 11308147fd70 Extracting 20MB / 30MB
+2026-04-23T06:53:53.384Z INFO  - 11308147fd70 Extracting 20MB / 30MB
+2026-04-23T06:53:53.535Z INFO  - 11308147fd70 Extracting 21MB / 30MB
+2026-04-23T06:53:53.710Z INFO  - 11308147fd70 Extracting 22MB / 30MB
+2026-04-23T06:53:53.843Z INFO  - 11308147fd70 Extracting 22MB / 30MB
+2026-04-23T06:53:54.022Z INFO  - 11308147fd70 Extracting 23MB / 30MB
+2026-04-23T06:53:54.964Z INFO  - 11308147fd70 Extracting 27MB / 30MB
+2026-04-23T06:53:55.082Z INFO  - 11308147fd70 Extracting 27MB / 30MB
+2026-04-23T06:53:55.189Z INFO  - 11308147fd70 Extracting 28MB / 30MB
+2026-04-23T06:53:55.361Z INFO  - 11308147fd70 Extracting 29MB / 30MB
+2026-04-23T06:53:55.782Z INFO  - 11308147fd70 Extracting 30MB / 30MB
+2026-04-23T06:53:56.016Z INFO  - 11308147fd70 Extracting 30MB / 30MB
+2026-04-23T06:53:56.165Z INFO  - 11308147fd70 Pull complete
+2026-04-23T06:53:56.174Z INFO  - 24c200971f4d Extracting 155B / 155B
+2026-04-23T06:53:56.229Z INFO  - 24c200971f4d Extracting 155B / 155B
+2026-04-23T06:53:56.369Z INFO  - 24c200971f4d Pull complete
+2026-04-23T06:53:56.913Z INFO  - 786352c64df7 Extracting 1MB / 10MB
+2026-04-23T06:53:57.041Z INFO  - 786352c64df7 Extracting 1MB / 10MB
+2026-04-23T06:53:57.164Z INFO  - 786352c64df7 Extracting 1MB / 10MB
+2026-04-23T06:53:57.285Z INFO  - 786352c64df7 Extracting 2MB / 10MB
+2026-04-23T06:53:57.886Z INFO  - 786352c64df7 Extracting 3MB / 10MB
+2026-04-23T06:53:58.106Z INFO  - 786352c64df7 Extracting 5MB / 10MB
+2026-04-23T06:53:58.434Z INFO  - 786352c64df7 Extracting 7MB / 10MB
+2026-04-23T06:53:58.549Z INFO  - 786352c64df7 Extracting 7MB / 10MB
+2026-04-23T06:53:58.791Z INFO  - 786352c64df7 Extracting 8MB / 10MB
+2026-04-23T06:53:59.036Z INFO  - 786352c64df7 Extracting 10MB / 10MB
+2026-04-23T06:53:59.080Z INFO  - 786352c64df7 Extracting 10MB / 10MB
+2026-04-23T06:53:59.150Z INFO  - 786352c64df7 Pull complete
+2026-04-23T06:53:59.159Z INFO  - ac824b4db38c Extracting 93B / 93B
+2026-04-23T06:53:59.224Z INFO  - ac824b4db38c Extracting 93B / 93B
+2026-04-23T06:53:59.294Z INFO  - ac824b4db38c Pull complete
+2026-04-23T06:53:59.492Z INFO  - bd62c44056ea Extracting 320KB / 3MB
+2026-04-23T06:54:00.414Z INFO  - bd62c44056ea Extracting 3MB / 3MB
+2026-04-23T06:54:00.488Z INFO  - bd62c44056ea Extracting 3MB / 3MB
+2026-04-23T06:54:00.576Z INFO  - bd62c44056ea Pull complete
+2026-04-23T06:54:00.961Z INFO  - c29cf919d91d Extracting 1MB / 4MB
+2026-04-23T06:54:01.273Z INFO  - c29cf919d91d Extracting 3MB / 4MB
+2026-04-23T06:54:01.734Z INFO  - c29cf919d91d Extracting 4MB / 4MB
+2026-04-23T06:54:01.822Z INFO  - c29cf919d91d Extracting 4MB / 4MB
+2026-04-23T06:54:01.916Z INFO  - c29cf919d91d Pull complete
+2026-04-23T06:54:01.934Z INFO  - ed4bb6b9b6b8 Extracting 32KB / 159KB
+2026-04-23T06:54:02.067Z INFO  - ed4bb6b9b6b8 Extracting 64KB / 159KB
+2026-04-23T06:54:02.091Z INFO  - ed4bb6b9b6b8 Extracting 159KB / 159KB
+2026-04-23T06:54:02.158Z INFO  - ed4bb6b9b6b8 Pull complete
+2026-04-23T06:54:02.186Z INFO  - 5edffa087127 Extracting 396B / 396B
+2026-04-23T06:54:02.362Z INFO  - 5edffa087127 Extracting 396B / 396B
+2026-04-23T06:54:02.564Z INFO  - 5edffa087127 Pull complete
+2026-04-23T06:54:02.590Z INFO  - a08fc4d446db Extracting 393B / 393B
+2026-04-23T06:54:02.636Z INFO  - a08fc4d446db Extracting 393B / 393B
+2026-04-23T06:54:02.667Z INFO  - a08fc4d446db Pull complete
+2026-04-23T06:54:02.700Z INFO  - 6fe0c48400b1 Extracting 32KB / 1MB
+2026-04-23T06:54:03.040Z INFO  - 6fe0c48400b1 Extracting 288KB / 1MB
+2026-04-23T06:54:03.163Z INFO  - 6fe0c48400b1 Extracting 576KB / 1MB
+2026-04-23T06:54:03.377Z INFO  - 6fe0c48400b1 Extracting 1MB / 1MB
+2026-04-23T06:54:03.433Z INFO  - 6fe0c48400b1 Extracting 1MB / 1MB
+2026-04-23T06:54:03.529Z INFO  - 6fe0c48400b1 Pull complete
+2026-04-23T06:54:03.624Z INFO  -  Digest: sha256:6f6de9cd5ff0c7785c56ecd37bf5eebcde5e199635e3d939f7b183ff97355c60
+2026-04-23T06:54:03.654Z INFO  -  Status: Downloaded newer image for mcr.microsoft.com/appsvc/middleware:stage3
+2026-04-23T06:54:03.715Z INFO  - Pull Image successful, Time taken: 79 Seconds
+2026-04-23T06:54:08.091Z INFO  - Starting container for site
+2026-04-23T06:54:08.091Z INFO  - docker run -d --expose=8181 --name api-backend-5axms_0_bcc34876_middleware -e WEBSITE_CORS_ALLOWED_ORIGINS=https://frontend-workflow-kappa.vercel.app,http://localhost:4200 -e WEBSITE_CORS_SUPPORT_CREDENTIALS=False -e WEBSITES_ENABLE_APP_SERVICE_STORAGE=false -e WEBSITE_SITE_NAME=api-backend-5axms -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=api-backend-5axms.azurewebsites.net -e WEBSITE_INSTANCE_ID=b0e2122ffb897ee16ce57fb431e00849d09afc37d8c8c169bf990b442f30c685 mcr.microsoft.com/appsvc/middleware:stage3 /Host.ListenUrl=http://0.0.0.0:8181 /Host.DestinationHostUrl=http://169.254.129.3:8080 /Host.UseFileLogging=true
+2026-04-23T06:54:08.091Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.

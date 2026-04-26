@@ -50,7 +50,7 @@ public class SecurityConfig {
                 )
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/api/auth/**", "/ws-workflow/**", "/api/workflows/ai/**").permitAll()
+                    .requestMatchers("/api/auth/**", "/ws-workflow/**", "/api/workflows/ai/**", "/api/webhooks/**").permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterBefore(new org.springframework.web.filter.OncePerRequestFilter() {
@@ -75,9 +75,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
+        config.setAllowedOrigins(List.of(
+            "http://localhost:4200",
+            "http://localhost:8080",
+            "https://frontend-workflow-kappa.vercel.app"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Origin"));
+        config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization", "Content-Type"));
         // Removemos allowCredentials ya que usamos JWT por cabecera y hace conflicto con "*" en origins/headers
         config.setMaxAge(3600L);

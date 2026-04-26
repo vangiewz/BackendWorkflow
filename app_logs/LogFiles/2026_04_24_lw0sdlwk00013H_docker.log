@@ -1,0 +1,325 @@
+2026-04-24T19:27:03.4702833Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:27:13.3543029Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:27:13.3545245Z Container start method called.
+2026-04-24T19:27:13.3705045Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:27:13.3708341Z Establishing network.
+2026-04-24T19:27:13.3709978Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T19:27:19.6108910Z Container is starting.
+2026-04-24T19:27:19.6186110Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:27:19.6200931Z Establishing user namespace if not established already.
+2026-04-24T19:27:19.6576049Z Establishing network if not established already.
+2026-04-24T19:27:19.6651448Z Mounting volumes.
+2026-04-24T19:27:19.6662549Z Nested mountpoint volatile/logs
+2026-04-24T19:27:19.7322365Z Nested mountpoint 
+2026-04-24T19:27:20.0929786Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T19:27:20.0936134Z Creating container.
+2026-04-24T19:27:20.1741038Z Creating pipes for streaming container io.
+2026-04-24T19:27:20.1750665Z Creating stdout named pipe at /podr/container/pipe/0f18178b9d62_api-backend-5axms/stdout_3bef6e2bf4614af4bf193ceaaa58f6e8.
+2026-04-24T19:27:20.2187989Z Successfully created stdout named pipe at: /podr/container/pipe/0f18178b9d62_api-backend-5axms/stdout_3bef6e2bf4614af4bf193ceaaa58f6e8.
+2026-04-24T19:27:20.2239100Z Opening named pipe /podr/container/pipe/0f18178b9d62_api-backend-5axms/stdout_3bef6e2bf4614af4bf193ceaaa58f6e8 for reading in non-blocking mode.
+2026-04-24T19:27:20.2349200Z Successfully opened named pipe: /podr/container/pipe/0f18178b9d62_api-backend-5axms/stdout_3bef6e2bf4614af4bf193ceaaa58f6e8.
+2026-04-24T19:27:20.2620678Z Successfully removed non-blocking flag from /podr/container/pipe/0f18178b9d62_api-backend-5axms/stdout_3bef6e2bf4614af4bf193ceaaa58f6e8.
+2026-04-24T19:27:20.4420046Z Creating stderr named pipe at /podr/container/pipe/0f18178b9d62_api-backend-5axms/stderr_9ab16b6459ad4ab5bdc0aca887a1d788.
+2026-04-24T19:27:20.4992646Z Successfully created stderr named pipe at: /podr/container/pipe/0f18178b9d62_api-backend-5axms/stderr_9ab16b6459ad4ab5bdc0aca887a1d788.
+2026-04-24T19:27:20.5467723Z Opening named pipe /podr/container/pipe/0f18178b9d62_api-backend-5axms/stderr_9ab16b6459ad4ab5bdc0aca887a1d788 for reading in non-blocking mode.
+2026-04-24T19:27:20.5498826Z Successfully opened named pipe: /podr/container/pipe/0f18178b9d62_api-backend-5axms/stderr_9ab16b6459ad4ab5bdc0aca887a1d788.
+2026-04-24T19:27:20.5502361Z Successfully removed non-blocking flag from /podr/container/pipe/0f18178b9d62_api-backend-5axms/stderr_9ab16b6459ad4ab5bdc0aca887a1d788.
+2026-04-24T19:27:20.5568601Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T19:27:21.6483383Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T19:27:21.6487457Z Setting value of PORT variable to 8080
+2026-04-24T19:27:21.6641953Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T19:27:24.1944933Z Starting container: 0f18178b9d62_api-backend-5axms.
+2026-04-24T19:27:24.4379859Z Starting watchers and probes.
+2026-04-24T19:27:24.4806680Z Starting metrics collection.
+2026-04-24T19:27:24.4968137Z Container is running.
+2026-04-24T19:27:24.4999703Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:27:24.8253396Z Container start method finished after 11470 ms.
+2026-04-24T19:27:25.1356795Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:27:25.1363200Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T19:28:49.8355354Z Site startup probe failed after 84.6043699 seconds.
+2026-04-24T19:28:50.6804778Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T19:28:50.7471148Z Failed to start site. Revert by stopping site.
+2026-04-24T19:28:50.7747098Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T19:28:50.7930280Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T19:28:50.8004759Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T19:28:50.9054551Z Stop and delete container. Retry count = 0
+2026-04-24T19:28:50.9058718Z Stopping container: 0f18178b9d62_api-backend-5axms.
+2026-04-24T19:28:57.7580892Z Deleting container: 0f18178b9d62_api-backend-5axms. Retry count = 0
+2026-04-24T19:28:59.0756474Z Container spec TerminationMessagePolicy  path 
+2026-04-24T19:28:59.0759531Z Container is terminated. Total time elapsed: 8274 ms.
+2026-04-24T19:28:59.0771501Z Site container: api-backend-5axms terminated during site startup.
+2026-04-24T19:28:59.0781531Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-24T19:28:59.0860677Z Site: api-backend-5axms stopped.
+2026-04-24T19:29:23.3691263Z State: Stopping, Action: StoppingSite, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site started at 04/23/2026 21:25:27 (UTC), DetailsLevel: INFO
+2026-04-24T19:29:23.3714708Z State: Stopping, Action: StoppingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site started at 04/23/2026 21:25:27 (UTC), DetailsLevel: INFO
+2026-04-24T19:29:23.3716162Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T19:29:23.3985438Z Stop and delete container. Retry count = 0
+2026-04-24T19:29:23.3987084Z Stopping container: e1e079bb9602_api-backend-5axms.
+2026-04-24T19:29:28.8193418Z Deleting container: e1e079bb9602_api-backend-5axms. Retry count = 0
+2026-04-24T19:29:29.2421443Z Container spec TerminationMessagePolicy  path 
+2026-04-24T19:29:29.2430835Z Container is terminated. Total time elapsed: 5870 ms.
+2026-04-24T19:29:30.2830521Z Site: api-backend-5axms stopped.
+2026-04-24T19:31:38.8509768Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 04/24/2026 19:29:02 (UTC), DetailsLevel: ERR
+2026-04-24T19:31:42.6608312Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 04/24/2026 19:29:02 (UTC), DetailsLevel: ERR
+2026-04-24T19:31:42.6610704Z Container start method called.
+2026-04-24T19:31:42.6616616Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:31:42.6618119Z Establishing network.
+2026-04-24T19:31:42.6619549Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T19:31:45.8033104Z Image acruagrm5axms.azurecr.io/backend:latest is pulled from registry acruagrm5axms.azurecr.io
+2026-04-24T19:31:45.8057639Z Container is starting.
+2026-04-24T19:31:45.8131257Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:31:45.8144793Z Establishing user namespace if not established already.
+2026-04-24T19:31:45.8148578Z Establishing network if not established already.
+2026-04-24T19:31:45.8222970Z Mounting volumes.
+2026-04-24T19:31:45.8230756Z Nested mountpoint volatile/logs
+2026-04-24T19:31:45.8497909Z Nested mountpoint 
+2026-04-24T19:31:46.0200119Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T19:31:46.0202445Z Creating container.
+2026-04-24T19:31:46.0204092Z Creating pipes for streaming container io.
+2026-04-24T19:31:46.0205771Z Creating stdout named pipe at /podr/container/pipe/c7b224a9b790_api-backend-5axms/stdout_cf4ef3569e7b4a62ba314a68d8d63480.
+2026-04-24T19:31:46.0216567Z Successfully created stdout named pipe at: /podr/container/pipe/c7b224a9b790_api-backend-5axms/stdout_cf4ef3569e7b4a62ba314a68d8d63480.
+2026-04-24T19:31:46.0218370Z Opening named pipe /podr/container/pipe/c7b224a9b790_api-backend-5axms/stdout_cf4ef3569e7b4a62ba314a68d8d63480 for reading in non-blocking mode.
+2026-04-24T19:31:46.0220233Z Successfully opened named pipe: /podr/container/pipe/c7b224a9b790_api-backend-5axms/stdout_cf4ef3569e7b4a62ba314a68d8d63480.
+2026-04-24T19:31:46.0675057Z Successfully removed non-blocking flag from /podr/container/pipe/c7b224a9b790_api-backend-5axms/stdout_cf4ef3569e7b4a62ba314a68d8d63480.
+2026-04-24T19:31:46.1104664Z Creating stderr named pipe at /podr/container/pipe/c7b224a9b790_api-backend-5axms/stderr_4a67cf3313374647a914d3ea06b99096.
+2026-04-24T19:31:46.1109324Z Successfully created stderr named pipe at: /podr/container/pipe/c7b224a9b790_api-backend-5axms/stderr_4a67cf3313374647a914d3ea06b99096.
+2026-04-24T19:31:46.1111135Z Opening named pipe /podr/container/pipe/c7b224a9b790_api-backend-5axms/stderr_4a67cf3313374647a914d3ea06b99096 for reading in non-blocking mode.
+2026-04-24T19:31:46.1184085Z Successfully opened named pipe: /podr/container/pipe/c7b224a9b790_api-backend-5axms/stderr_4a67cf3313374647a914d3ea06b99096.
+2026-04-24T19:31:46.1191740Z Successfully removed non-blocking flag from /podr/container/pipe/c7b224a9b790_api-backend-5axms/stderr_4a67cf3313374647a914d3ea06b99096.
+2026-04-24T19:31:46.1206698Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T19:31:46.1726067Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T19:31:46.1732195Z Setting value of PORT variable to 8080
+2026-04-24T19:31:46.1740047Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T19:31:46.8549977Z Starting container: c7b224a9b790_api-backend-5axms.
+2026-04-24T19:31:46.9525673Z Starting watchers and probes.
+2026-04-24T19:31:46.9601652Z Starting metrics collection.
+2026-04-24T19:31:46.9628993Z Container is running.
+2026-04-24T19:31:46.9633971Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:31:47.1913248Z Container start method finished after 4528 ms.
+2026-04-24T19:31:47.1994009Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:31:47.1998187Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T19:33:36.3860216Z Site startup probe succeeded after 109.1854604 seconds.
+2026-04-24T19:33:36.8376352Z State: Starting, Action: WarmUpProbeSucceeded, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site startup probe succeeded after 109.1854604 seconds., DetailsLevel: INFO
+2026-04-24T19:33:37.8514031Z State: Starting, Action: StartingAuthContainer, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site startup probe succeeded after 109.1854604 seconds., DetailsLevel: INFO
+2026-04-24T19:33:48.2222629Z Site started.
+2026-04-24T19:33:48.2238701Z State: Started, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:33:48 (UTC), DetailsLevel: INFO
+2026-04-24T19:40:29.4090634Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:40:37.0487881Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:40:37.0911131Z Container start method called.
+2026-04-24T19:40:37.1238123Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:40:37.1241792Z Establishing network.
+2026-04-24T19:40:37.1715625Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T19:40:55.0421828Z Image acruagrm5axms.azurecr.io/backend:latest is pulled from registry acruagrm5axms.azurecr.io
+2026-04-24T19:40:55.0424926Z Container is starting.
+2026-04-24T19:40:55.0515859Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:40:55.0518375Z Establishing user namespace if not established already.
+2026-04-24T19:40:55.0521339Z Establishing network if not established already.
+2026-04-24T19:40:55.0597494Z Mounting volumes.
+2026-04-24T19:40:55.0601560Z Nested mountpoint volatile/logs
+2026-04-24T19:40:55.0960942Z Nested mountpoint 
+2026-04-24T19:40:55.5806487Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T19:40:55.5998668Z Creating container.
+2026-04-24T19:40:55.6001541Z Creating pipes for streaming container io.
+2026-04-24T19:40:55.6002856Z Creating stdout named pipe at /podr/container/pipe/da8474cb9487_api-backend-5axms/stdout_be5e6e2a447d4479bda87f5aec405a83.
+2026-04-24T19:40:55.6005826Z Successfully created stdout named pipe at: /podr/container/pipe/da8474cb9487_api-backend-5axms/stdout_be5e6e2a447d4479bda87f5aec405a83.
+2026-04-24T19:40:55.6007221Z Opening named pipe /podr/container/pipe/da8474cb9487_api-backend-5axms/stdout_be5e6e2a447d4479bda87f5aec405a83 for reading in non-blocking mode.
+2026-04-24T19:40:55.6008594Z Successfully opened named pipe: /podr/container/pipe/da8474cb9487_api-backend-5axms/stdout_be5e6e2a447d4479bda87f5aec405a83.
+2026-04-24T19:40:55.6009614Z Successfully removed non-blocking flag from /podr/container/pipe/da8474cb9487_api-backend-5axms/stdout_be5e6e2a447d4479bda87f5aec405a83.
+2026-04-24T19:40:55.6082662Z Creating stderr named pipe at /podr/container/pipe/da8474cb9487_api-backend-5axms/stderr_071798f4e0b649edb2135ba2a40b1b02.
+2026-04-24T19:40:55.6084537Z Successfully created stderr named pipe at: /podr/container/pipe/da8474cb9487_api-backend-5axms/stderr_071798f4e0b649edb2135ba2a40b1b02.
+2026-04-24T19:40:55.6085712Z Opening named pipe /podr/container/pipe/da8474cb9487_api-backend-5axms/stderr_071798f4e0b649edb2135ba2a40b1b02 for reading in non-blocking mode.
+2026-04-24T19:40:55.6087029Z Successfully opened named pipe: /podr/container/pipe/da8474cb9487_api-backend-5axms/stderr_071798f4e0b649edb2135ba2a40b1b02.
+2026-04-24T19:40:55.6088157Z Successfully removed non-blocking flag from /podr/container/pipe/da8474cb9487_api-backend-5axms/stderr_071798f4e0b649edb2135ba2a40b1b02.
+2026-04-24T19:40:55.6089608Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T19:40:55.8374218Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T19:40:55.8385088Z Setting value of PORT variable to 8080
+2026-04-24T19:40:55.8389303Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T19:40:57.5868052Z Starting container: da8474cb9487_api-backend-5axms.
+2026-04-24T19:40:57.8276451Z Starting watchers and probes.
+2026-04-24T19:40:57.8395830Z Starting metrics collection.
+2026-04-24T19:40:57.8788194Z Container is running.
+2026-04-24T19:40:57.8789512Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:40:58.1064213Z Container start method finished after 21015 ms.
+2026-04-24T19:40:58.2225624Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:40:58.2559211Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T19:43:37.7987008Z Site startup probe succeeded after 159.4686263 seconds.
+2026-04-24T19:43:38.3015392Z State: Starting, Action: WarmUpProbeSucceeded, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 159.4686263 seconds., DetailsLevel: INFO
+2026-04-24T19:43:39.8603308Z State: Starting, Action: StartingAuthContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 159.4686263 seconds., DetailsLevel: INFO
+2026-04-24T19:43:51.8156872Z Site started.
+2026-04-24T19:43:51.8265423Z State: Started, Action: None, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site started at 04/24/2026 19:43:51 (UTC), DetailsLevel: INFO
+2026-04-24T19:44:11.9544908Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:33:48 (UTC), DetailsLevel: INFO
+2026-04-24T19:44:11.9626641Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:33:48 (UTC), DetailsLevel: INFO
+2026-04-24T19:44:11.9694984Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T19:44:12.0126258Z Stop and delete container. Retry count = 0
+2026-04-24T19:44:12.0134544Z Stopping container: c7b224a9b790_api-backend-5axms.
+2026-04-24T19:44:13.3041187Z Deleting container: c7b224a9b790_api-backend-5axms. Retry count = 0
+2026-04-24T19:44:13.6288106Z Container spec TerminationMessagePolicy  path 
+2026-04-24T19:44:13.6373190Z Container is terminated. Total time elapsed: 1661 ms.
+2026-04-24T19:44:14.5828459Z Site: api-backend-5axms stopped.
+2026-04-24T19:46:28.8501535Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:46:36.9815386Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:46:36.9818523Z Container start method called.
+2026-04-24T19:46:36.9819112Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:46:36.9820324Z Establishing network.
+2026-04-24T19:46:36.9821848Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T19:46:41.7381199Z Container is starting.
+2026-04-24T19:46:41.7394978Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:46:41.7475190Z Establishing user namespace if not established already.
+2026-04-24T19:46:41.7495995Z Establishing network if not established already.
+2026-04-24T19:46:41.7749438Z Mounting volumes.
+2026-04-24T19:46:41.7758513Z Nested mountpoint volatile/logs
+2026-04-24T19:46:41.8076282Z Nested mountpoint 
+2026-04-24T19:46:42.2815200Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T19:46:42.2816846Z Creating container.
+2026-04-24T19:46:42.2818131Z Creating pipes for streaming container io.
+2026-04-24T19:46:42.2819476Z Creating stdout named pipe at /podr/container/pipe/bbb33d291bad_api-backend-5axms/stdout_b5cba2fe1a8e4b618a74e5ae1056efc3.
+2026-04-24T19:46:42.2822300Z Successfully created stdout named pipe at: /podr/container/pipe/bbb33d291bad_api-backend-5axms/stdout_b5cba2fe1a8e4b618a74e5ae1056efc3.
+2026-04-24T19:46:42.2823466Z Opening named pipe /podr/container/pipe/bbb33d291bad_api-backend-5axms/stdout_b5cba2fe1a8e4b618a74e5ae1056efc3 for reading in non-blocking mode.
+2026-04-24T19:46:42.2824901Z Successfully opened named pipe: /podr/container/pipe/bbb33d291bad_api-backend-5axms/stdout_b5cba2fe1a8e4b618a74e5ae1056efc3.
+2026-04-24T19:46:42.2825954Z Successfully removed non-blocking flag from /podr/container/pipe/bbb33d291bad_api-backend-5axms/stdout_b5cba2fe1a8e4b618a74e5ae1056efc3.
+2026-04-24T19:46:42.2917617Z Creating stderr named pipe at /podr/container/pipe/bbb33d291bad_api-backend-5axms/stderr_507e20e12edb4763a2cb4d0974ab4d49.
+2026-04-24T19:46:42.2919623Z Successfully created stderr named pipe at: /podr/container/pipe/bbb33d291bad_api-backend-5axms/stderr_507e20e12edb4763a2cb4d0974ab4d49.
+2026-04-24T19:46:42.2921101Z Opening named pipe /podr/container/pipe/bbb33d291bad_api-backend-5axms/stderr_507e20e12edb4763a2cb4d0974ab4d49 for reading in non-blocking mode.
+2026-04-24T19:46:42.2922412Z Successfully opened named pipe: /podr/container/pipe/bbb33d291bad_api-backend-5axms/stderr_507e20e12edb4763a2cb4d0974ab4d49.
+2026-04-24T19:46:42.2923581Z Successfully removed non-blocking flag from /podr/container/pipe/bbb33d291bad_api-backend-5axms/stderr_507e20e12edb4763a2cb4d0974ab4d49.
+2026-04-24T19:46:42.2924989Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T19:46:42.7517131Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T19:46:42.7532349Z Setting value of PORT variable to 8080
+2026-04-24T19:46:42.7611974Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T19:46:44.0262568Z Starting container: bbb33d291bad_api-backend-5axms.
+2026-04-24T19:46:44.1454447Z Starting watchers and probes.
+2026-04-24T19:46:44.1530185Z Starting metrics collection.
+2026-04-24T19:46:44.1543885Z Container is running.
+2026-04-24T19:46:44.1545354Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:46:44.4289189Z Container start method finished after 7351 ms.
+2026-04-24T19:46:44.5775306Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:46:44.5845352Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T19:49:42.6535013Z Site startup probe succeeded after 178.035154 seconds.
+2026-04-24T19:49:43.1683521Z State: Starting, Action: WarmUpProbeSucceeded, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 178.035154 seconds., DetailsLevel: INFO
+2026-04-24T19:49:44.1637722Z State: Starting, Action: StartingAuthContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 178.035154 seconds., DetailsLevel: INFO
+2026-04-24T19:49:58.0056597Z Site started.
+2026-04-24T19:49:58.0270765Z State: Started, Action: None, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site started at 04/24/2026 19:49:57 (UTC), DetailsLevel: INFO
+2026-04-24T19:50:18.3776992Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:43:51 (UTC), DetailsLevel: INFO
+2026-04-24T19:50:18.4061332Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:43:51 (UTC), DetailsLevel: INFO
+2026-04-24T19:50:18.4077824Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T19:50:18.4651775Z Stop and delete container. Retry count = 0
+2026-04-24T19:50:18.4656116Z Stopping container: da8474cb9487_api-backend-5axms.
+2026-04-24T19:50:19.6800226Z Deleting container: da8474cb9487_api-backend-5axms. Retry count = 0
+2026-04-24T19:50:20.0058840Z Container spec TerminationMessagePolicy  path 
+2026-04-24T19:50:20.0078631Z Container is terminated. Total time elapsed: 1587 ms.
+2026-04-24T19:50:21.0558206Z Site: api-backend-5axms stopped.
+2026-04-24T19:52:52.2608275Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:53:00.2117143Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T19:53:00.2346012Z Container start method called.
+2026-04-24T19:53:00.2347374Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:53:00.2349564Z Establishing network.
+2026-04-24T19:53:00.2351191Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T19:53:10.7846808Z Image acruagrm5axms.azurecr.io/backend:latest is pulled from registry acruagrm5axms.azurecr.io
+2026-04-24T19:53:10.7855902Z Container is starting.
+2026-04-24T19:53:10.7950459Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T19:53:10.7953071Z Establishing user namespace if not established already.
+2026-04-24T19:53:10.7954890Z Establishing network if not established already.
+2026-04-24T19:53:10.7957840Z Mounting volumes.
+2026-04-24T19:53:10.7965624Z Nested mountpoint volatile/logs
+2026-04-24T19:53:10.8409855Z Nested mountpoint 
+2026-04-24T19:53:10.9774279Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T19:53:10.9914918Z Creating container.
+2026-04-24T19:53:10.9916512Z Creating pipes for streaming container io.
+2026-04-24T19:53:10.9917667Z Creating stdout named pipe at /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stdout_efb10c0d5aff4a6d81cc4c443fd00d64.
+2026-04-24T19:53:10.9920090Z Successfully created stdout named pipe at: /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stdout_efb10c0d5aff4a6d81cc4c443fd00d64.
+2026-04-24T19:53:10.9921140Z Opening named pipe /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stdout_efb10c0d5aff4a6d81cc4c443fd00d64 for reading in non-blocking mode.
+2026-04-24T19:53:10.9922388Z Successfully opened named pipe: /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stdout_efb10c0d5aff4a6d81cc4c443fd00d64.
+2026-04-24T19:53:10.9923375Z Successfully removed non-blocking flag from /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stdout_efb10c0d5aff4a6d81cc4c443fd00d64.
+2026-04-24T19:53:11.0012479Z Creating stderr named pipe at /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stderr_69e3c71a583541de8154c1d11b0773e9.
+2026-04-24T19:53:11.0095247Z Successfully created stderr named pipe at: /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stderr_69e3c71a583541de8154c1d11b0773e9.
+2026-04-24T19:53:11.0105831Z Opening named pipe /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stderr_69e3c71a583541de8154c1d11b0773e9 for reading in non-blocking mode.
+2026-04-24T19:53:11.0302316Z Successfully opened named pipe: /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stderr_69e3c71a583541de8154c1d11b0773e9.
+2026-04-24T19:53:11.0307769Z Successfully removed non-blocking flag from /podr/container/pipe/d301da9ffa6e_api-backend-5axms/stderr_69e3c71a583541de8154c1d11b0773e9.
+2026-04-24T19:53:11.0846563Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T19:53:11.2612709Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T19:53:11.2615504Z Setting value of PORT variable to 8080
+2026-04-24T19:53:11.2623593Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T19:53:12.4271682Z Starting container: d301da9ffa6e_api-backend-5axms.
+2026-04-24T19:53:12.6093033Z Starting watchers and probes.
+2026-04-24T19:53:12.6175019Z Starting metrics collection.
+2026-04-24T19:53:12.6184526Z Container is running.
+2026-04-24T19:53:12.6204669Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:53:12.9206357Z Container start method finished after 12685 ms.
+2026-04-24T19:53:12.9557375Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T19:53:12.9560016Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T19:55:47.2052658Z Site startup probe succeeded after 154.2236922 seconds.
+2026-04-24T19:55:47.9222952Z State: Starting, Action: WarmUpProbeSucceeded, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 154.2236922 seconds., DetailsLevel: INFO
+2026-04-24T19:55:50.4056257Z State: Starting, Action: StartingAuthContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site startup probe succeeded after 154.2236922 seconds., DetailsLevel: INFO
+2026-04-24T19:56:02.9056131Z Site started.
+2026-04-24T19:56:02.9123098Z State: Started, Action: None, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site started at 04/24/2026 19:56:02 (UTC), DetailsLevel: INFO
+2026-04-24T19:56:23.1500601Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:49:57 (UTC), DetailsLevel: INFO
+2026-04-24T19:56:23.1619279Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:49:57 (UTC), DetailsLevel: INFO
+2026-04-24T19:56:23.1656074Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T19:56:23.1994310Z Stop and delete container. Retry count = 0
+2026-04-24T19:56:23.2043226Z Stopping container: bbb33d291bad_api-backend-5axms.
+2026-04-24T19:56:24.2326826Z Deleting container: bbb33d291bad_api-backend-5axms. Retry count = 0
+2026-04-24T19:56:24.7103358Z Container spec TerminationMessagePolicy  path 
+2026-04-24T19:56:24.7180124Z Container is terminated. Total time elapsed: 1551 ms.
+2026-04-24T19:56:25.4142541Z Site: api-backend-5axms stopped.
+2026-04-24T20:06:18.9677862Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T20:06:27.4647704Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-04-24T20:06:27.4658880Z Container start method called.
+2026-04-24T20:06:27.4671495Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image acruagrm5axms.azurecr.io/backend:latest for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T20:06:27.4676320Z Establishing network.
+2026-04-24T20:06:27.4681535Z Pulling image: acruagrm5axms.azurecr.io/backend:latest.
+2026-04-24T20:06:35.7085274Z Image acruagrm5axms.azurecr.io/backend:latest is pulled from registry acruagrm5axms.azurecr.io
+2026-04-24T20:06:35.7091428Z Container is starting.
+2026-04-24T20:06:35.7257811Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for api-backend-5axms., DetailsLevel: INFO
+2026-04-24T20:06:35.7355235Z Establishing user namespace if not established already.
+2026-04-24T20:06:35.7367648Z Establishing network if not established already.
+2026-04-24T20:06:35.7371237Z Mounting volumes.
+2026-04-24T20:06:35.7373504Z Nested mountpoint volatile/logs
+2026-04-24T20:06:35.7845553Z Nested mountpoint 
+2026-04-24T20:06:36.1121209Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for api-backend-5axms. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-04-24T20:06:36.1682474Z Creating container.
+2026-04-24T20:06:36.1833424Z Creating pipes for streaming container io.
+2026-04-24T20:06:36.1835371Z Creating stdout named pipe at /podr/container/pipe/068bf43623fe_api-backend-5axms/stdout_ccd78a89c9d14775a525f582a25619d1.
+2026-04-24T20:06:36.1838282Z Successfully created stdout named pipe at: /podr/container/pipe/068bf43623fe_api-backend-5axms/stdout_ccd78a89c9d14775a525f582a25619d1.
+2026-04-24T20:06:36.1839430Z Opening named pipe /podr/container/pipe/068bf43623fe_api-backend-5axms/stdout_ccd78a89c9d14775a525f582a25619d1 for reading in non-blocking mode.
+2026-04-24T20:06:36.1840796Z Successfully opened named pipe: /podr/container/pipe/068bf43623fe_api-backend-5axms/stdout_ccd78a89c9d14775a525f582a25619d1.
+2026-04-24T20:06:36.1841878Z Successfully removed non-blocking flag from /podr/container/pipe/068bf43623fe_api-backend-5axms/stdout_ccd78a89c9d14775a525f582a25619d1.
+2026-04-24T20:06:36.1919486Z Creating stderr named pipe at /podr/container/pipe/068bf43623fe_api-backend-5axms/stderr_676ac2b7aacd4f3aa2e21039673c2038.
+2026-04-24T20:06:36.1921426Z Successfully created stderr named pipe at: /podr/container/pipe/068bf43623fe_api-backend-5axms/stderr_676ac2b7aacd4f3aa2e21039673c2038.
+2026-04-24T20:06:36.1922607Z Opening named pipe /podr/container/pipe/068bf43623fe_api-backend-5axms/stderr_676ac2b7aacd4f3aa2e21039673c2038 for reading in non-blocking mode.
+2026-04-24T20:06:36.1923911Z Successfully opened named pipe: /podr/container/pipe/068bf43623fe_api-backend-5axms/stderr_676ac2b7aacd4f3aa2e21039673c2038.
+2026-04-24T20:06:36.1925004Z Successfully removed non-blocking flag from /podr/container/pipe/068bf43623fe_api-backend-5axms/stderr_676ac2b7aacd4f3aa2e21039673c2038.
+2026-04-24T20:06:36.2096084Z Overriding PORT environment variable with port exposed by container image.
+2026-04-24T20:06:36.3401521Z Container image exposes ports: ContainerExposedPort { Port = 8080, Protocol = TCP }. Sanitized list of ports is: 8080. Resolved main port to 8080.
+2026-04-24T20:06:36.3408935Z Setting value of PORT variable to 8080
+2026-04-24T20:06:36.3418541Z Creating container with image: acruagrm5axms.azurecr.io/backend:latest from registry: acruagrm5axms.azurecr.io and fully qualified image name: acruagrm5axms.azurecr.io/backend:latest
+2026-04-24T20:06:37.9458370Z Starting container: 068bf43623fe_api-backend-5axms.
+2026-04-24T20:06:38.0510054Z Starting watchers and probes.
+2026-04-24T20:06:38.0529742Z Starting metrics collection.
+2026-04-24T20:06:38.0652958Z Container is running.
+2026-04-24T20:06:38.0660764Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T20:06:38.2383151Z Container start method finished after 10765 ms.
+2026-04-24T20:06:38.4589064Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container api-backend-5axms successfully created and is running., DetailsLevel: INFO
+2026-04-24T20:06:38.4594622Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-04-24T20:08:38.7445722Z Site startup probe failed after 120.2298443 seconds.
+2026-04-24T20:08:41.1946438Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 20:08:41, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T20:08:41.2721130Z Failed to start site. Revert by stopping site.
+2026-04-24T20:08:41.2878929Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 20:08:41, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T20:08:41.2989244Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 20:08:41, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-04-24T20:08:41.3368718Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T20:08:41.5169415Z Stop and delete container. Retry count = 0
+2026-04-24T20:08:41.5170945Z Stopping container: 068bf43623fe_api-backend-5axms.
+2026-04-24T20:08:47.3012886Z Deleting container: 068bf43623fe_api-backend-5axms. Retry count = 0
+2026-04-24T20:08:48.9828245Z Container spec TerminationMessagePolicy  path 
+2026-04-24T20:08:48.9908803Z Container is terminated. Total time elapsed: 7629 ms.
+2026-04-24T20:08:49.0169912Z Site container: api-backend-5axms terminated during site startup.
+2026-04-24T20:08:49.0170961Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 20:08:41, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: api-backend-5axms terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-04-24T20:08:49.0637155Z Site: api-backend-5axms stopped.
+2026-04-24T20:09:14.0112268Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:56:02 (UTC), DetailsLevel: INFO
+2026-04-24T20:09:14.0189274Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 04/24/2026 19:28:50, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site started at 04/24/2026 19:56:02 (UTC), DetailsLevel: INFO
+2026-04-24T20:09:14.0303122Z Container is terminating. Grace period: 5 seconds.
+2026-04-24T20:09:14.0732121Z Stop and delete container. Retry count = 0
+2026-04-24T20:09:14.0812491Z Stopping container: d301da9ffa6e_api-backend-5axms.
+2026-04-24T20:09:18.1028670Z Deleting container: d301da9ffa6e_api-backend-5axms. Retry count = 0
+2026-04-24T20:09:18.7318339Z Container spec TerminationMessagePolicy  path 
+2026-04-24T20:09:18.7505983Z Container is terminated. Total time elapsed: 4701 ms.
+2026-04-24T20:09:20.6062460Z Site: api-backend-5axms stopped.

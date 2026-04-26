@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import backendworkflow.backend.repositories.PlantillaWorkflowRepository;
 import backendworkflow.backend.repositories.TramiteRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,19 +15,36 @@ import java.util.*;
 @Service
 public class TramiteService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TramiteService.class);
+
     private final TramiteRepository tramiteRepository;
     private final PlantillaWorkflowRepository plantillaRepository;
     private final ClaudeAiService claudeAiService;
+    private final backendworkflow.backend.repositories.UsuarioRepository usuarioRepository;
+    private final N8nNotificationService n8nNotificationService;
+    private final NotificationStepService notificationStepService;
+    private final CoinGateService coinGateService;
+    private final AzureBlobStorageService azureBlobStorageService;
     private final ObjectMapper objectMapper;
 
     public TramiteService(
             TramiteRepository tramiteRepository,
             PlantillaWorkflowRepository plantillaRepository,
-            ClaudeAiService claudeAiService
+            ClaudeAiService claudeAiService,
+            backendworkflow.backend.repositories.UsuarioRepository usuarioRepository,
+            N8nNotificationService n8nNotificationService,
+            NotificationStepService notificationStepService,
+            CoinGateService coinGateService,
+            AzureBlobStorageService azureBlobStorageService
     ) {
         this.tramiteRepository = tramiteRepository;
         this.plantillaRepository = plantillaRepository;
         this.claudeAiService = claudeAiService;
+        this.usuarioRepository = usuarioRepository;
+        this.n8nNotificationService = n8nNotificationService;
+        this.notificationStepService = notificationStepService;
+        this.coinGateService = coinGateService;
+        this.azureBlobStorageService = azureBlobStorageService;
         this.objectMapper = new ObjectMapper();
     }
 
@@ -33,6 +52,11 @@ public class TramiteService {
      * Crea un nuevo trámite a partir de una plantilla activa.
      */
     public Tramite iniciarTramite(String plantillaId, String clienteId, Map<String, Object> datosCliente) {
+        return iniciarTramiteMultipart(plantillaId, clienteId, datosCliente, null);
+    }
+
+    public Tramite iniciarTramiteMultipart(String plantillaId, String clienteId, Map<String, Object> datosCliente,
+                                           Map<String, org.springframework.web.multipart.MultipartFile> archivos) {
         PlantillaWorkflow plantilla = plantillaRepository.findById(plantillaId)
                 .orElseThrow(() -> new RuntimeException("Plantilla no encontrada"));
 
@@ -49,13 +73,51 @@ public class TramiteService {
         String primerPasoId = pasos.get(0).id();
 
         Tramite tramite = new Tramite();
+        tramite.setId(java.util.UUID.randomUUID().toString()); // Forzar ID temprano para el order_id
         tramite.setPlantillaId(plantillaId);
         tramite.setNombrePlantilla(plantilla.getNombre());
         tramite.setClienteId(clienteId);
-        tramite.setEstadoGlobal("PENDIENTE");
+        
+        Usuario cliente = usuarioRepository.findById(clienteId).orElse(null);
+        if (cliente != null) {
+            tramite.setClienteEmail(cliente.getEmail());
+        }
+
         tramite.setPasoActualId(primerPasoId);
-        tramite.setDatosFormularioCliente(datosCliente != null ? datosCliente : new HashMap<>());
+        if (datosCliente == null) {
+            datosCliente = new HashMap<>();
+        }
+
+        if (archivos != null && !archivos.isEmpty()) {
+            for (Map.Entry<String, org.springframework.web.multipart.MultipartFile> entry : archivos.entrySet()) {
+                if ("datos".equals(entry.getKey())) continue;
+                try {
+                    String url = azureBlobStorageService.uploadFile(entry.getValue());
+                    datosCliente.put(entry.getKey(), url);
+                } catch (java.io.IOException e) {
+                    throw new RuntimeException("Error al subir el archivo inicial: " + entry.getKey(), e);
+                }
+            }
+        }
+
+        tramite.setDatosFormularioCliente(datosCliente);
         tramite.setFechaCreacion(LocalDateTime.now());
+
+        Double costoBase = plantilla.getCostoBase() != null ? plantilla.getCostoBase() : 0.0;
+        
+        if (costoBase > 0) {
+            tramite.setEstadoGlobal("ESPERANDO_PAGO");
+            Map<String, Object> invoiceData = coinGateService.crearFactura(costoBase, tramite.getId(), tramite.getNombrePlantilla());
+            tramite.setPaymentId(String.valueOf(invoiceData.get("id")));
+            tramite.setInvoiceUrl(String.valueOf(invoiceData.get("payment_url")));
+        } else {
+            tramite.setEstadoGlobal("PENDIENTE");
+            if (cliente != null) {
+                n8nNotificationService.notificarTramiteGratis(tramite, cliente);
+            }
+            // Notificar al responsable del primer paso
+            notificationStepService.notificarSiguientePaso(tramite, pasos.get(0));
+        }
 
         // Registrar el inicio del primer paso
         RegistroTiempo registro = new RegistroTiempo(
@@ -66,6 +128,32 @@ public class TramiteService {
         return tramiteRepository.save(tramite);
     }
 
+    public void confirmarPago(String orderId) {
+        Tramite tramite = tramiteRepository.findById(orderId).orElse(null);
+        if (tramite != null && "ESPERANDO_PAGO".equals(tramite.getEstadoGlobal())) {
+            tramite.setEstadoGlobal("PENDIENTE");
+            tramiteRepository.save(tramite);
+
+            usuarioRepository.findById(tramite.getClienteId()).ifPresent(cliente -> {
+                n8nNotificationService.notificarTramitePagado(tramite, cliente);
+            });
+
+            // Notificar al responsable del primer paso después del pago
+            try {
+                PlantillaWorkflow plantilla = plantillaRepository.findById(tramite.getPlantillaId()).orElse(null);
+                if (plantilla != null && plantilla.getPasos() != null && !plantilla.getPasos().isEmpty()) {
+                    PasoWorkflow primerPaso = plantilla.getPasos().stream()
+                            .filter(p -> p.id().equals(tramite.getPasoActualId()))
+                            .findFirst()
+                            .orElse(plantilla.getPasos().get(0));
+                    notificationStepService.notificarSiguientePaso(tramite, primerPaso);
+                }
+            } catch (Exception e) {
+                // No bloquear el flujo de pago por un error de notificación
+            }
+        }
+    }
+
     /**
      * Responde el formulario del paso actual y avanza al siguiente.
      * Para ACTIVIDAD: guarda respuestas y avanza vía siguientes["default"].
@@ -73,7 +161,8 @@ public class TramiteService {
      */
     public Tramite responderPaso(String tramiteId, String pasoId, String funcionarioId, 
                                   String funcionarioNombre, String departamentoId,
-                                  Map<String, Object> respuesta, String decisionElegida) {
+                                  Map<String, Object> respuesta, String decisionElegida,
+                                  Map<String, org.springframework.web.multipart.MultipartFile> archivos) {
         StepExecutionContext context = loadAndValidateStepContext(tramiteId, pasoId, funcionarioId, departamentoId);
         Tramite tramite = context.tramite();
         PasoWorkflow pasoActual = context.pasoActual();
@@ -98,6 +187,22 @@ public class TramiteService {
             respuesta = new HashMap<>();
         }
 
+        // Subir archivos a Azure Blob Storage si existen y mapear URLs a las respuestas
+        if (archivos != null && !archivos.isEmpty()) {
+            for (Map.Entry<String, org.springframework.web.multipart.MultipartFile> entry : archivos.entrySet()) {
+                // El key es el parameterName enviado desde el frontend (idealmente el key del field)
+                // excepto si es el de "datos" que usamos para JSON, pero request.getFileMap() solo tiene archivos.
+                if ("datos".equals(entry.getKey())) continue;
+                
+                try {
+                    String url = azureBlobStorageService.uploadFile(entry.getValue());
+                    respuesta.put(entry.getKey(), url);
+                } catch (java.io.IOException e) {
+                    throw new RuntimeException("Error al subir el archivo: " + entry.getKey(), e);
+                }
+            }
+        }
+
         // Validar campos requeridos del formularioJson (si el paso tiene formulario)
         if (!"DECISION".equals(pasoActual.tipo()) && pasoActual.formularioJson() != null) {
             Object requiredObj = pasoActual.formularioJson().get("required");
@@ -118,22 +223,33 @@ public class TramiteService {
         Map<String, String> siguientes = pasoActual.siguientes();
         String siguientePasoId = null;
 
-        if ("DECISION".equals(pasoActual.tipo())) {
-            // Para decisiones, usar la condición elegida
+        // Normalizar tipo (la IA puede generar "ACTIVITY" en vez de "ACTIVIDAD")
+        String tipoNormalizado = normalizeTipo(pasoActual.tipo());
+
+        // Detectar ACTIVIDAD con múltiples rutas no-default (debería ser DECISION)
+        boolean esDecisionImplicita = "ACTIVIDAD".equals(tipoNormalizado)
+                && siguientes != null && siguientes.size() > 1
+                && !siguientes.containsKey("default");
+
+        if ("DECISION".equals(tipoNormalizado) || esDecisionImplicita) {
+            // Para decisiones (explícitas o implícitas), usar la condición elegida
             if (decisionElegida == null || decisionElegida.isEmpty()) {
-                throw new RuntimeException("Debe seleccionar una opción para la decisión");
+                throw new RuntimeException("Debe seleccionar una opción para continuar");
             }
             siguientePasoId = siguientes != null ? siguientes.get(decisionElegida) : null;
             if (siguientePasoId == null) {
-                throw new RuntimeException("Opción de decisión no válida: " + decisionElegida);
+                throw new RuntimeException("Opción no válida: " + decisionElegida 
+                        + ". Opciones disponibles: " + (siguientes != null ? siguientes.keySet() : "ninguna"));
             }
             // Guardar la decisión tomada
             Map<String, Object> decisionData = new HashMap<>();
             decisionData.put("decision", decisionElegida);
+            if (respuesta != null && !respuesta.isEmpty()) {
+                decisionData.putAll(respuesta); // Preservar respuestas de formulario si hay
+            }
             tramite.getRespuestas().put(pasoId, decisionData);
         } else {
-            // Para actividades, resolver por "default" o por una clave que coincida con la respuesta.
-            // Ejemplo: siguientes {"true": "paso_1", "false": "paso_4"} con respuesta booleana.
+            // Para actividades lineales (default o ruta única)
             siguientePasoId = resolveNextStepForActivity(siguientes, respuesta, decisionElegida);
         }
 
@@ -143,6 +259,11 @@ public class TramiteService {
             tramite.setPasoActualId(null);
             tramite.setEstadoGlobal("FINALIZADO");
             tramite.setFechaFinalizacion(LocalDateTime.now());
+            
+            // Notificar al cliente asíncronamente
+            usuarioRepository.findById(tramite.getClienteId()).ifPresent(usuario -> {
+                n8nNotificationService.notificarTramiteFinalizado(tramite, usuario);
+            });
         } else {
             tramite.setPasoActualId(siguientePasoId);
             tramite.setEstadoGlobal("EN_PROGRESO");
@@ -152,6 +273,20 @@ public class TramiteService {
                     siguientePasoId, null, null, LocalDateTime.now(), null
             );
             tramite.getHistorialTiempos().add(nuevoRegistro);
+
+            // Notificar al responsable del siguiente paso
+            try {
+                PlantillaWorkflow plantilla = plantillaRepository.findById(tramite.getPlantillaId()).orElse(null);
+                if (plantilla != null && plantilla.getPasos() != null) {
+                    String finalSiguientePasoId = siguientePasoId;
+                    plantilla.getPasos().stream()
+                            .filter(p -> p.id().equals(finalSiguientePasoId))
+                            .findFirst()
+                            .ifPresent(paso -> notificationStepService.notificarSiguientePaso(tramite, paso));
+                }
+            } catch (Exception e) {
+                // No bloquear el flujo del trámite por un error de notificación
+            }
         }
 
         return tramiteRepository.save(tramite);
@@ -217,7 +352,15 @@ public class TramiteService {
     }
 
     public List<Tramite> getAll() {
-        return tramiteRepository.findAll();
+        List<Tramite> tramites = tramiteRepository.findAll();
+        for (Tramite t : tramites) {
+            if (t.getClienteEmail() == null && t.getClienteId() != null) {
+                usuarioRepository.findById(t.getClienteId()).ifPresent(cliente -> {
+                    t.setClienteEmail(cliente.getEmail());
+                });
+            }
+        }
+        return tramites;
     }
 
     public Optional<Tramite> getById(String id) {
@@ -285,6 +428,7 @@ public class TramiteService {
             return siguientes.values().iterator().next();
         }
 
+        // Si hay decisionElegida, usarla directamente
         if (decisionElegida != null && !decisionElegida.isBlank()) {
             String byDecision = siguientes.get(decisionElegida);
             if (byDecision != null) {
@@ -292,12 +436,10 @@ public class TramiteService {
             }
         }
 
+        // Intentar coincidir con valores de respuesta
         if (respuesta != null && !respuesta.isEmpty()) {
             for (Object value : respuesta.values()) {
-                if (value == null) {
-                    continue;
-                }
-
+                if (value == null) continue;
                 String normalized = String.valueOf(value);
                 String nextByExactValue = siguientes.get(normalized);
                 if (nextByExactValue != null) {
@@ -306,10 +448,23 @@ public class TramiteService {
             }
         }
 
-        throw new RuntimeException(
-                "El paso de tipo ACTIVIDAD tiene múltiples rutas y no se pudo resolver el siguiente paso. " +
-                        "Define la ruta 'default' o asegúrate de que una respuesta coincida con una clave en 'siguientes'."
-        );
+        // Fallback: si solo quedan 2+ rutas sin resolver, tomar la primera como default seguro
+        // Esto previene que workflows generados por IA rompan el sistema
+        logger.warn("ACTIVIDAD con múltiples rutas no resolvió match. Usando primera ruta como fallback. Rutas: {}", siguientes.keySet());
+        return siguientes.values().iterator().next();
+    }
+
+    /**
+     * Normaliza el tipo de paso. La IA puede generar variaciones como "ACTIVITY", "activity", etc.
+     */
+    private String normalizeTipo(String tipo) {
+        if (tipo == null) return "ACTIVIDAD";
+        String upper = tipo.toUpperCase().trim();
+        return switch (upper) {
+            case "ACTIVITY", "TASK", "ACTIVIDAD" -> "ACTIVIDAD";
+            case "DECISION", "GATEWAY", "DECISIÓN" -> "DECISION";
+            default -> "ACTIVIDAD";
+        };
     }
 
     private String extractJsonObject(String aiRaw) {

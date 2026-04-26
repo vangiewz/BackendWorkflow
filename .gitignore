@@ -36,3 +36,4 @@ build/
 
 ### Environment Variables ###
 .env
+firebase-service-account.json

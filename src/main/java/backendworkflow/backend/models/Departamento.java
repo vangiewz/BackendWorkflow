@@ -1,5 +1,6 @@
 package backendworkflow.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,11 +11,15 @@ public class Departamento {
     private String id;
     private String nombre;
 
+    @JsonProperty("isActive")
+    private boolean isActive = true;
+
     public Departamento() {
     }
 
     public Departamento(String nombre) {
         this.nombre = nombre;
+        this.isActive = true;
     }
 
     // Getters y Setters
@@ -33,5 +38,13 @@ public class Departamento {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
