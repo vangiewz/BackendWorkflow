@@ -1,0 +1,99 @@
+package backendworkflow.backend.departamento.service;
+
+
+import backendworkflow.backend.departamento.dto.CreateDepartamentoRequest;
+import backendworkflow.backend.departamento.dto.UpdateDepartamentoRequest;
+import backendworkflow.backend.departamento.model.Departamento;
+import backendworkflow.backend.departamento.repository.DepartamentoRepository;
+import backendworkflow.backend.usuario.repository.UsuarioRepository;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class DepartamentoService {
+
+    private final DepartamentoRepository departamentoRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public DepartamentoService(DepartamentoRepository departamentoRepository, UsuarioRepository usuarioRepository) {
+        this.departamentoRepository = departamentoRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    /**
+     * Crea un nuevo departamento.
+     *
+     * @param request Datos del departamento
+     * @return Departamento creado con su ID generado
+     * @throws RuntimeException si ya existe un departamento con ese nombre
+     */
+    public Departamento createDepartamento(CreateDepartamentoRequest request) {
+        if (departamentoRepository.findByNombre(request.nombre()).isPresent()) {
+            throw new RuntimeException("Ya existe un departamento con ese nombre");
+        }
+
+        Departamento departamento = new Departamento(request.nombre());
+        return departamentoRepository.save(departamento);
+    }
+
+    /**
+     * Retorna todos los departamentos (activos e inactivos) — para administración.
+     */
+    public List<Departamento> findAll() {
+        return departamentoRepository.findAll();
+    }
+
+    /**
+     * Retorna solo los departamentos activos — para workflows y prompts de IA.
+     */
+    public List<Departamento> findAllActive() {
+        return departamentoRepository.findByIsActiveTrue();
+    }
+
+    /**
+     * Activa o desactiva un departamento (soft delete).
+     */
+    public Departamento toggleActive(String id) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Departamento no encontrado"));
+        departamento.setActive(!departamento.isActive());
+        return departamentoRepository.save(departamento);
+    }
+
+    /**
+     * Busca un departamento por su ID.
+     * Reutilizable por otros servicios para validar existencia.
+     */
+    public Optional<Departamento> findById(String id) {
+        return departamentoRepository.findById(id);
+    }
+
+    /**
+     * Actualiza el nombre de un departamento.
+     */
+    public Departamento updateDepartamento(String id, UpdateDepartamentoRequest request) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Departamento no encontrado"));
+
+        departamento.setNombre(request.nombre());
+        return departamentoRepository.save(departamento);
+    }
+
+    /**
+     * Elimina permanentemente un departamento (hard delete).
+     * Verifica que no existan usuarios asignados.
+     */
+    public void deleteDepartamento(String id) {
+        if (!departamentoRepository.existsById(id)) {
+            throw new RuntimeException("Departamento no encontrado");
+        }
+        
+        if (usuarioRepository.existsByDepartamentoId(id)) {
+            throw new RuntimeException("No se puede eliminar el departamento porque existen usuarios asignados a él");
+        }
+        
+        departamentoRepository.deleteById(id);
+    }
+}
