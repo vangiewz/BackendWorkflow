@@ -50,7 +50,7 @@ public class SecurityConfig {
                 )
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers("/api/auth/**", "/ws-workflow/**", "/ws-colaboracion/**", "/api/workflows/ai/**", "/api/webhooks/**", "/api/tramites/report-data", "/api/analytics/report-data").permitAll()
+                    .requestMatchers("/api/auth/**", "/ws-workflow/**", "/ws-colaboracion/**", "/api/workflows/ai/**", "/api/webhooks/**", "/api/pagos/webhook", "/api/tramites/report-data", "/api/analytics/report-data").permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterBefore(new org.springframework.web.filter.OncePerRequestFilter() {
